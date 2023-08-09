@@ -2,12 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package proyecto1_progra2.clases_j;
-import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-
 public class Pieza extends JButton {
     private String fantasma;
     private String imagePath;
@@ -15,12 +13,25 @@ public class Pieza extends JButton {
     private int fila;
     private int columna;
     
-    public Pieza(String fantasma, String jugador, String imagePath, int fila, int columna) {
+    private static final String DEFAULT_IMAGE_PATH_J1 = "C:\\Users\\pcast\\OneDrive\\Documentos\\NetBeansProjects\\New Folder\\proyectoGame\\proyectoGhost\\proyectoGhost\\src\\imagenes\\juego\\fantasmaJ1.png";
+    private static final String DEFAULT_IMAGE_PATH_J2 = "C:\\Users\\pcast\\OneDrive\\Documentos\\NetBeansProjects\\New Folder\\proyectoGame\\proyectoGhost\\proyectoGhost\\src\\imagenes\\juego\\fantasma.png";
+    private static final String DEFAULT_IMAGE_PATH_CASTILLO = "C:\\Users\\pcast\\OneDrive\\Documentos\\NetBeansProjects\\New Folder\\proyectoGame\\proyectoGhost\\proyectoGhost\\src\\imagenes\\juego\\castillo.jpg";
+
+    public Pieza(String fantasma, String jugador, int fila, int columna) {
         this.fantasma = fantasma;
-        this.imagePath = imagePath;
         this.jugador = jugador;
         this.fila = fila;
         this.columna = columna;
+
+        // Establecer imagePath según el jugador
+        if (jugador.equals("J1")&& !fantasma.equals("CASTILLO")) {
+            this.imagePath = DEFAULT_IMAGE_PATH_J1;
+        } else if(jugador.equals("J2")&& !fantasma.equals("CASTILLO")){
+            this.imagePath = DEFAULT_IMAGE_PATH_J2;
+        
+        }else if (jugador.equals("J1")||jugador.equals("J2")&& fantasma.equals("CASTILLO")){
+            this.imagePath = DEFAULT_IMAGE_PATH_CASTILLO;
+        }
     }
     public String getFantasma() {
         return fantasma;
@@ -52,5 +63,4 @@ public class Pieza extends JButton {
     public void setColumna(int columna) {
         this.columna = columna;
     }
-
 }

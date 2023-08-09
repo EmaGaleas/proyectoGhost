@@ -624,95 +624,92 @@ fantasmasMJ2.setText(String.valueOf(malosJ2));
             }
         }
     }//GEN-LAST:event_getMoverMouseClicked
-    private void actualizarTablero() {
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 6; j++) {
-                Pieza pieza = ghostGame.matrizBotones[i][j];
-                if (pieza != null && pieza.getFantasma() != null && pieza.getImagePath() != null) {
-                    ImageIcon icon = new ImageIcon(pieza.getImagePath());
-                    pieza.setIcon(icon);
-                    pieza.revalidate();
-                    pieza.repaint();
-                } else {
-                    pieza.setIcon(null);
-                    pieza.revalidate();
-                    pieza.repaint();
-                }
-            }
-        }
-    }
+
     private void setDestinoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setDestinoMouseClicked
-        String fSeleccion = filaSeleccion.getText().trim();
-        String cSeleccion = columnaSeleccion.getText().trim();
-        String fDestino = filaDestino.getText().trim();
-        String cDestino = columnaDestino.getText().trim();
+String fSeleccion = filaSeleccion.getText().trim();
+String cSeleccion = columnaSeleccion.getText().trim();
+String fDestino = filaDestino.getText().trim();
+String cDestino = columnaDestino.getText().trim();
 
-        if (fDestino.isEmpty() || cDestino.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Llene las casillas de destino", "Error", JOptionPane.WARNING_MESSAGE);
+if (fDestino.isEmpty() || cDestino.isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Llene las casillas de destino", "Error", JOptionPane.WARNING_MESSAGE);
+} else {
+    try {
+        int filaSel = Integer.parseInt(fSeleccion);
+        int columnaSel = Integer.parseInt(cSeleccion);
+        int filaDest = Integer.parseInt(fDestino);
+        int columnaDest = Integer.parseInt(cDestino);
+
+        if ((filaDest < 0 || filaDest >= 6) || (columnaDest < 0 || columnaDest >= 6)) {
+            JOptionPane.showMessageDialog(null, "Ingrese coordenadas dentro del rango 0-5", "Error en DESTINO", JOptionPane.WARNING_MESSAGE);
         } else {
-            try {
-                int filaSel = Integer.parseInt(fSeleccion);
-                int columnaSel = Integer.parseInt(cSeleccion);
-                int filaDest = Integer.parseInt(fDestino);
-                int columnaDest = Integer.parseInt(cDestino);
-
-                if ((filaDest < 0 || filaDest >= 6) || (columnaDest < 0 || columnaDest >= 6)) {
-                    JOptionPane.showMessageDialog(null, "Ingrese coordenadas dentro del rango 0-5", "Error en DESTINO", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    Pieza piezaSeleccionada = ghostGame.matrizBotones[filaSel][columnaSel];
-                    Pieza piezaDestino = ghostGame.matrizBotones[filaDest][columnaDest];
+            Pieza piezaSeleccionada = ghostGame.matrizBotones[filaSel][columnaSel];
+            Pieza piezaDestino = ghostGame.matrizBotones[filaDest][columnaDest];
             System.out.println("filaSel: " + filaSel);
             System.out.println("columnaSel: " + columnaSel);
             System.out.println("filaDest: " + filaDest);
             System.out.println("columnaDest: " + columnaDest);
 
-                    if (ghostGame.datosIngresados(piezaSeleccionada) && ghostGame.esMovimientoValidoJugador(filaDest, columnaDest, filaSel, columnaSel)) {
-                        int buenosJ1 = ghostGame.getContadorBuenosJugadorUnoList().size();
-int malosJ1 = ghostGame.getContadorMalosJugadorUnoList().size();
-int buenosJ2 = ghostGame.getContadorBuenosJugadorDosList().size();
-int malosJ2 = ghostGame.getContadorMalosJugadorDosList().size();
-// Actualizar los JLabels con los valores obtenidos
-fantasmasBJ1.setText(String.valueOf(buenosJ1));
-fantasmasMJ1.setText(String.valueOf(malosJ1));
-fantasmasBJ2.setText(String.valueOf(buenosJ2));
-fantasmasMJ2.setText(String.valueOf(malosJ2));
+            if (ghostGame.datosIngresados(piezaSeleccionada) && ghostGame.esMovimientoValidoJugador(filaDest, columnaDest, filaSel, columnaSel)) {
+                int buenosJ1 = ghostGame.getContadorBuenosJugadorUnoList().size();
+                int malosJ1 = ghostGame.getContadorMalosJugadorUnoList().size();
+                int buenosJ2 = ghostGame.getContadorBuenosJugadorDosList().size();
+                int malosJ2 = ghostGame.getContadorMalosJugadorDosList().size();
+                // Actualizar los JLabels con los valores obtenidos
+                fantasmasBJ1.setText(String.valueOf(buenosJ1));
+                fantasmasMJ1.setText(String.valueOf(malosJ1));
+                fantasmasBJ2.setText(String.valueOf(buenosJ2));
+                fantasmasMJ2.setText(String.valueOf(malosJ2));
 
-                        piezaDestino.setFantasma(piezaSeleccionada.getFantasma());
-                        piezaDestino.setJugador(piezaSeleccionada.getJugador());
-                        piezaDestino.setFila(filaDest);
-                        piezaDestino.setColumna(columnaDest);
-                        if (piezaDestino.getJugador().equals("J1")) {
-                            piezaDestino.setImagePath("C:\\Users\\pcast\\OneDrive\\Documentos\\NetBeansProjects\\New Folder\\proyectoGame\\proyectoGhost\\proyectoGhost\\src\\imagenes\\juego\\fantasma.png");
+                    if (piezaDestino == null) {
+                        piezaDestino = new Pieza(piezaSeleccionada.getFantasma(), piezaSeleccionada.getJugador(), filaDest, columnaDest);
+                        piezaDestino.setImagePath(piezaSeleccionada.getImagePath());
+                         if (piezaDestino.getJugador().equals("J1")) {
+                            piezaDestino.setImagePath("RUTA_A_LA_IMAGEN_DEL_JUGADOR1"); // Reemplaza con la ruta correcta
                         } else {
-                            piezaDestino.setImagePath("C:\\Users\\pcast\\OneDrive\\Documentos\\NetBeansProjects\\New Folder\\proyectoGame\\proyectoGhost\\proyectoGhost\\src\\imagenes\\juego\\fantasma444.png"); 
+                            piezaDestino.setImagePath("RUTA_A_LA_IMAGEN_DEL_JUGADOR2"); // Reemplaza con la ruta correcta
                         }
-                        
-                        piezaSeleccionada.setFantasma("A");
-                        piezaSeleccionada.setImagePath("A");
-                        piezaSeleccionada.setJugador("A");
-                        piezaSeleccionada.setFila(filaSel);
-                        piezaSeleccionada.setColumna(columnaSel);
-
-                        actualizarTablero();
-
-                        ghostGame.cambiarTurno();
-                        turno.setText("Turno de: " + ghostGame.getTurnoActual());
-                        filaSeleccion.setText("");
-                        columnaSeleccion.setText("");
-                        filaDestino.setText("");
-                        columnaDestino.setText("");
-                        filaDestino.setEnabled(false);
-                        columnaDestino.setEnabled(false);
-                        setDestino.setEnabled(false);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Movimiento no válido", "Error", JOptionPane.WARNING_MESSAGE);
                     }
-                }
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Ingrese números válidos", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);
+
+                piezaDestino.setFantasma(piezaSeleccionada.getFantasma());
+                piezaDestino.setJugador(piezaSeleccionada.getJugador());
+                piezaDestino.setFila(filaDest);
+                piezaDestino.setColumna(columnaDest);
+//                
+//                if (piezaDestino.getJugador().equals("J1")) {
+//                    piezaDestino.setImagePath("C:\\Users\\pcast\\OneDrive\\Documentos\\NetBeansProjects\\New Folder\\proyectoGame\\proyectoGhost\\proyectoGhost\\src\\imagenes\\juego\\fantasma.png");
+//                } else {
+//                    piezaDestino.setImagePath("C:\\Users\\pcast\\OneDrive\\Documentos\\NetBeansProjects\\New Folder\\proyectoGame\\proyectoGhost\\proyectoGhost\\src\\imagenes\\juego\\fantasma444.png"); 
+//                }
+
+                piezaSeleccionada.setFantasma(null);
+                piezaSeleccionada.setImagePath(null);
+                piezaSeleccionada.setJugador(null);
+                piezaSeleccionada.setFila(filaSel);
+                piezaSeleccionada.setColumna(columnaSel);
+
+
+                ghostGame.cambiarTurno();
+                turno.setText("Turno de: " + ghostGame.getTurnoActual());
+                filaSeleccion.setText("");
+                columnaSeleccion.setText("");
+                filaDestino.setText("");
+                columnaDestino.setText("");
+                filaDestino.setEnabled(false);
+                columnaDestino.setEnabled(false);
+                setDestino.setEnabled(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "Movimiento no válido", "Error", JOptionPane.WARNING_MESSAGE);
             }
         }
+    } catch (NumberFormatException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Ingrese números válidos", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);
+    }catch(Exception e){
+        JOptionPane.showMessageDialog(null, "Error en try", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);
+
+    }
+}
     
     }//GEN-LAST:event_setDestinoMouseClicked
 

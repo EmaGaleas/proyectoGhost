@@ -52,10 +52,12 @@ public class GhostGame {
                 button.setPreferredSize(new Dimension(50, 100));
                 // Verificar pieza
                 Pieza pieza = matrizBotones[i][j];
-                if (pieza != null && pieza.getFantasma().length() > 0 && pieza.getImagePath().length() > 0) {
+                // Verificar pieza
+                if (pieza != null && pieza.getFantasma().length() > 0 && pieza.getImagePath() != null && pieza.getImagePath().length() > 0) {
                     ImageIcon icon = new ImageIcon(pieza.getImagePath());
                     button.setIcon(icon);
                 }
+
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -129,7 +131,7 @@ public class GhostGame {
         }
     }
     public void modo(){
-        switch(modo){
+        switch(modo.toUpperCase()){
             case "ALEATORIO":
                 posicionarPiezasAleatorio();
                 break;
@@ -181,10 +183,10 @@ public boolean esTurnoModoManual() {
             piezasJugadorDos.add("MALOS");
         }
         //castillos FIJO
-        matrizBotones[0][0] = new Pieza("CASTILLO", "J2", "src/imagenes/juego/castillo.jpg", 0, 0);
-        matrizBotones[0][5] = new Pieza("CASTILLO", "J2", "src/imagenes/juego/castillo.jpg", 0, 5);
-        matrizBotones[5][0] = new Pieza("CASTILLO", "J1", "src/imagenes/juego/castillo.jpg", 5, 0);
-        matrizBotones[5][5] = new Pieza("CASTILLO", "J1", "src/imagenes/juego/castillo.jpg", 5, 5);
+        matrizBotones[0][0] = new Pieza("CASTILLO", "J2", 0, 0);
+        matrizBotones[0][5] = new Pieza("CASTILLO", "J2", 0, 5);
+        matrizBotones[5][0] = new Pieza("CASTILLO", "J1",  5, 0);
+        matrizBotones[5][5] = new Pieza("CASTILLO", "J1", 5, 5);
          //jugador 1 f 4 y 5
         int contJugador1 = 0;
         while (contJugador1 < difi()) {
@@ -201,7 +203,7 @@ public boolean esTurnoModoManual() {
                     contadorMalosJugadorUnoList.add(contJugador1);
                 }
 
-                matrizBotones[randomRow][randomCol] = new Pieza(tipoFantasma, "J1", "src/imagenes/juego/fantasmaJ1.png", randomRow, randomCol);
+                matrizBotones[randomRow][randomCol] = new Pieza(tipoFantasma, "J1", randomRow, randomCol);
                 piezasJugadorUno.remove(randomIndex);
                 contJugador1++;
             }
@@ -222,7 +224,7 @@ public boolean esTurnoModoManual() {
                     contadorMalosJugadorDosList.add(contJugador2);
                 }
 
-                matrizBotones[randomRow][randomCol] = new Pieza(tipoFantasma, "J2", "src/imagenes/juego/fantasma.png", randomRow, randomCol);
+                matrizBotones[randomRow][randomCol] = new Pieza(tipoFantasma, "J2", randomRow, randomCol);
                 piezasJugadorDos.remove(randomIndex);
                 contJugador2++;
             }
@@ -231,7 +233,7 @@ public boolean esTurnoModoManual() {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
                 if (matrizBotones[i][j] == null) {
-                    Pieza piezaVacia = new Pieza("A", "A", "A", i, j);
+                    Pieza piezaVacia = new Pieza("A", "A", i, j);
                     matrizBotones[i][j] = piezaVacia;
                 }
             }
@@ -273,11 +275,11 @@ public boolean esTurnoModoManual() {
         return contadorMalosJugadorDosList;
     }
 private void posicionarManual() {
-    matrizBotones[0][0] = new Pieza("CASTILLO", "J2", "src/imagenes/juego/castillo.jpg", 0, 0);
-    matrizBotones[0][5] = new Pieza("CASTILLO", "J2", "src/imagenes/juego/castillo.jpg", 0, 5);
-    matrizBotones[5][0] = new Pieza("CASTILLO", "J1", "src/imagenes/juego/castillo.jpg", 5, 0);
-    matrizBotones[5][5] = new Pieza("CASTILLO", "J1", "src/imagenes/juego/castillo.jpg", 5, 5);
-    // J1
+    matrizBotones[0][0] = new Pieza("CASTILLO", "J2", 0, 0);
+    matrizBotones[0][5] = new Pieza("CASTILLO", "J2",  0, 5);
+    matrizBotones[5][0] = new Pieza("CASTILLO", "J1", 5, 0);
+    matrizBotones[5][5] = new Pieza("CASTILLO", "J1",5, 5);
+    // J1 RESTRINGIR ZONAS
     for (int i = 0; i < cantPiezas; i++) {
         String tipoFantasma = JOptionPane.showInputDialog(null, "Jugador 1: Ingrese el tipo de fantasma (BUENOS/MALOS):");
         if (tipoFantasma != null) {
