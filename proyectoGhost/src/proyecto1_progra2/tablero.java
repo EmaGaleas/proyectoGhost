@@ -613,6 +613,11 @@ fantasmasMJ2.setText(String.valueOf(malosJ2));
                         JOptionPane.showMessageDialog(null, "Escoja una pieza valida para mover", "Seleccion", JOptionPane.WARNING_MESSAGE);
                     }
                 }
+                
+    if (ghostGame.getModo().equals("MANUAL") && ghostGame.esTurnoModoManual()) {
+        // Permitir que el jugador coloque sus piezas en modo manual
+        JOptionPane.showMessageDialog(null, "Jugador " + ghostGame.getTurnoActual() + ": Coloca tus piezas en el tablero.", "Modo Manual", JOptionPane.INFORMATION_MESSAGE);
+    }
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "INGRESE NUMEROS", "Error en SELECCION", JOptionPane.ERROR_MESSAGE);

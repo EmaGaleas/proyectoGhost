@@ -134,7 +134,7 @@ public class GhostGame {
                 posicionarPiezasAleatorio();
                 break;
             case "MANUAL":
-                System.out.println("none");
+                posicionarManual();
                 break;
             default:
                 modo="ALEATORIO";
@@ -142,6 +142,15 @@ public class GhostGame {
                 break;
         }
     }
+    public String getModo() {
+    return modo;
+}
+
+public boolean esTurnoModoManual() {
+    return (turno==1 && contadorBuenosJugadorUnoList.size() < cantPiezas) ||
+           (turno==2 && contadorBuenosJugadorDosList.size() < cantPiezas);
+}
+
     public int difi(){
        switch (dificultad){
             case 1:
@@ -263,6 +272,45 @@ public class GhostGame {
     public ArrayList<Integer> getContadorMalosJugadorDosList() {
         return contadorMalosJugadorDosList;
     }
+private void posicionarManual() {
+    matrizBotones[0][0] = new Pieza("CASTILLO", "J2", "src/imagenes/juego/castillo.jpg", 0, 0);
+    matrizBotones[0][5] = new Pieza("CASTILLO", "J2", "src/imagenes/juego/castillo.jpg", 0, 5);
+    matrizBotones[5][0] = new Pieza("CASTILLO", "J1", "src/imagenes/juego/castillo.jpg", 5, 0);
+    matrizBotones[5][5] = new Pieza("CASTILLO", "J1", "src/imagenes/juego/castillo.jpg", 5, 5);
+    // J1
+    for (int i = 0; i < cantPiezas; i++) {
+        String tipoFantasma = JOptionPane.showInputDialog(null, "Jugador 1: Ingrese el tipo de fantasma (BUENOS/MALOS):");
+        if (tipoFantasma != null) {
+            if (tipoFantasma.equals("BUENOS") || tipoFantasma.equals("MALOS")) {
+                contadorBuenosJugadorUnoList.add(i); // Agregar al contador según corresponda
+                piezasJugadorUno.add(tipoFantasma);
+            } else {
+                JOptionPane.showMessageDialog(null, "Tipo de fantasma no válido. Ingrese BUENOS o MALOS.", "Error", JOptionPane.ERROR_MESSAGE);
+                i--; 
+            }
+        } else {
+            i--; 
+        }
+    }
+
+    //J2
+    for (int i = 0; i < cantPiezas; i++) {
+        String tipoFantasma = JOptionPane.showInputDialog(null, "Jugador 2: Ingrese el tipo de fantasma (BUENOS/MALOS):");
+        if (tipoFantasma != null) {
+            if (tipoFantasma.equals("BUENOS") || tipoFantasma.equals("MALOS")) {
+                contadorBuenosJugadorDosList.add(i); // Agregar al contador según corresponda
+                piezasJugadorDos.add(tipoFantasma);
+            } else {
+                JOptionPane.showMessageDialog(null, "Tipo de fantasma no válido. Ingrese BUENOS o MALOS.", "Error", JOptionPane.ERROR_MESSAGE);
+                i--; // Decrementar para repetir el ingreso
+            }
+        } else {
+            i--; // Decrementar para repetir el ingreso si se cancela
+        }
+    }
+
+}
+
 }
         //REVISAR OTRO TRUE
 //    private boolean noEsCastillo(int filaDestino, int columnaDestino) {
