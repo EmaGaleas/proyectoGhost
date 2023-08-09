@@ -6,6 +6,7 @@ package proyecto1_progra2.clases_j;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 public class Pieza extends JButton {
     private String fantasma;
@@ -51,11 +52,5 @@ public class Pieza extends JButton {
     public void setColumna(int columna) {
         this.columna = columna;
     }
-    public void limpia() {
-        fantasma = null;
-        imagePath = null;
-        jugador = null;
-        fila = -1; //no existe
-        columna = -1;
-    }
+
 }
