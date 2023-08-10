@@ -4,6 +4,7 @@
  */
 package proyecto1_progra2;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import proyecto1_progra2.clases_j.*;
@@ -594,17 +595,20 @@ private GhostGame ghostGame;
     private void getMoverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_getMoverMouseClicked
         String fSeleccion = filaSeleccion.getText().trim();
         String cSeleccion = columnaSeleccion.getText().trim();
+
         if (fSeleccion.isEmpty() || cSeleccion.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Llene las casillas", "Error", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
                 int filaSele = Integer.parseInt(fSeleccion);
                 int cSele = Integer.parseInt(cSeleccion);
+               
                 if ((filaSele < 0 || filaSele >= 6) || (cSele < 0 || cSele >= 6)) {
                     JOptionPane.showMessageDialog(null, "Ingrese cordenadas dentro del rango 0-5", "Error en SELECCION", JOptionPane.WARNING_MESSAGE);
                 } else {
                     Pieza piezaSeleccionada = ghostGame.matrizBotones[filaSele][cSele];
                     if (ghostGame.datosIngresados(piezaSeleccionada)) {
+                        ghostGame.cambiarFondoNegro(filaSele, cSele);
                         filaDestino.setEnabled(true);
                         columnaDestino.setEnabled(true);
                         setDestino.setEnabled(true);
@@ -614,11 +618,10 @@ private GhostGame ghostGame;
                     }
                 }
                 
-    if (ghostGame.getModo().equals("MANUAL") && ghostGame.esTurnoModoManual()) {
-        // Permitir que el jugador coloque sus piezas en modo manual
-        JOptionPane.showMessageDialog(null, "Jugador " + ghostGame.getTurnoActual() + ": Coloca tus piezas en el tablero.", "Modo Manual", JOptionPane.INFORMATION_MESSAGE);
-    }
-
+//    if (ghostGame.getModo().equals("MANUAL") && ghostGame.esTurnoModoManual()) {//no disponible sol opureba
+//        // Permitir que el jugador coloque sus piezas en modo manual
+//        JOptionPane.showMessageDialog(null, "Jugador " + ghostGame.getTurnoActual() + ": Coloca tus piezas en el tablero.", "Modo Manual", JOptionPane.INFORMATION_MESSAGE);
+//    }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "INGRESE NUMEROS", "Error en SELECCION", JOptionPane.ERROR_MESSAGE);
             }
@@ -660,6 +663,9 @@ private GhostGame ghostGame;
                         fantasmasMJ1.setText(String.valueOf(malosJ1));
                         fantasmasBJ2.setText(String.valueOf(buenosJ2));
                         fantasmasMJ2.setText(String.valueOf(malosJ2));
+                                               String imagePath = piezaSeleccionada.getImagePath();
+Icon icon = new ImageIcon(imagePath); 
+ghostGame.matrizBotones[filaSel][columnaSel].setIcon(icon);
 
                          if (piezaDestino == null) {
                             piezaDestino = new Pieza(piezaSeleccionada.getFantasma(), piezaSeleccionada.getJugador(), filaDest, columnaDest);
@@ -679,13 +685,16 @@ private GhostGame ghostGame;
                         piezaDestino.setJugador(piezaSeleccionada.getJugador());
                         piezaDestino.setFila(filaDest);
                         piezaDestino.setColumna(columnaDest);
-
-                        piezaSeleccionada.setFantasma(null);
+                        ghostGame.cambiarFondoBlanco(filaSel, columnaSel);
+                        piezaSeleccionada.setFantasma("A");
                         piezaSeleccionada.setImagePath(null);
-                        piezaSeleccionada.setJugador(null);
+                        piezaSeleccionada.setJugador("A");
                         piezaSeleccionada.setIcon(null);
                         piezaSeleccionada.setFila(filaSel);
                         piezaSeleccionada.setColumna(columnaSel);
+                        ghostGame.cambiarFondoAmarillo(filaDest, columnaDest);
+
+                        
                         ghostGame.cambiarTurno();
                         turno.setText("Turno de: " + ghostGame.getTurnoActual());
                         filaSeleccion.setText("");
@@ -695,7 +704,8 @@ private GhostGame ghostGame;
                         filaDestino.setEnabled(false);
                         columnaDestino.setEnabled(false);
                         setDestino.setEnabled(false);
-                     //               ghostGame.matrizBotones[filaSel][columnaSel] = null;
+ 
+
 
                     } else {
                         JOptionPane.showMessageDialog(null, "Movimiento no válido", "Error", JOptionPane.WARNING_MESSAGE);
@@ -706,7 +716,7 @@ private GhostGame ghostGame;
                 JOptionPane.showMessageDialog(null, "Ingrese números válidos", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);
             }catch(Exception e){
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Error en try", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error final", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);
 
             }
         }
