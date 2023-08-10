@@ -31,7 +31,8 @@ public class GhostGame {
     private ArrayList<Integer> contadorMalosJugadorUnoList = new ArrayList<>();
     private ArrayList<Integer> contadorBuenosJugadorDosList = new ArrayList<>();
     private ArrayList<Integer> contadorMalosJugadorDosList = new ArrayList<>();
-     private JButton[][] matrizButtonsUI;
+    
+    private JButton[][] matrizButtonsUI;//ACCEDE A LOS BOTONES
 
     public GhostGame() {
        matrizButtonsUI = new JButton[6][6]; 
@@ -53,43 +54,52 @@ public class GhostGame {
                 final Pieza pieza = matrizBotones[i][j]; 
                 JButton button = new JButton(); // Create a new JButton
                 matrizButtonsUI[i][j] = button;
-
                 if (pieza != null && pieza.getFantasma().length() > 0 && pieza.getImagePath() != null && pieza.getImagePath().length() > 0) {
                     ImageIcon icon = new ImageIcon(pieza.getImagePath());
                     button.setIcon(icon);
                 }
-
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         mostrarInformacionPieza(pieza);
                     }
                 });
-
                 tablero.add(button);
                 button.setBackground(Color.lightGray);
             }
         }
     }
-    public void cambiarFondoNegro(int fila, int columna) {
+    public void cambiarFondoNegro(int fila, int columna) {//LISTO
         if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
             matrizButtonsUI[fila][columna].setBackground(Color.BLACK);
         }
     }
-    public void cambiarFondoBlanco(int fila, int columna) {
+
+    public void cambiarFondoBlanco(int fila, int columna) {//LISTO
         if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
             matrizButtonsUI[fila][columna].setBackground(Color.lightGray);
         }
     }
-    public void cambiarFondoAmarillo(int fila, int columna) {
+    public void cambiarFondoAmarillo(int fila, int columna) {//LISTO QUE PONGA L AIMAGEN RESPECTIVA SEGUN EL TURNO Y PIEZA
         if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
             matrizButtonsUI[fila][columna].setBackground(Color.yellow);
         }
     }
-      public JButton getButtonAt(int row, int col) {
+    public JButton getButtonAt(int row, int col) {
         return matrizButtonsUI[row][col];
     }
-
+    public void cambiarImagenJ1(int fila, int columna) {
+        if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
+            ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/juego/fantasmaJ1.png"));
+            matrizButtonsUI[fila][columna].setIcon(icono);
+        }
+    }    
+    public void cambiarImagenJ2(int fila, int columna) {
+        if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
+            ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/juego/fantasma.png"));
+            matrizButtonsUI[fila][columna].setIcon(icono);
+        }
+    }
 
     public void cambiarTurno() {//listo
       turno = (turno == 1) ? 2 : 1;
@@ -156,14 +166,12 @@ public class GhostGame {
             if (matrizBotones[randomRow][randomCol] == null) {
                 int randomIndex = posicionRandom(0, piezasJugadorUno.size() - 1);
                 String tipoFantasma = piezasJugadorUno.get(randomIndex);
-
                 // Agregar el conteo a la lista correspondiente
                 if (tipoFantasma.equals("BUENOS")) {
                     contadorBuenosJugadorUnoList.add(contJugador1);
                 } else if (tipoFantasma.equals("MALOS")) {
                     contadorMalosJugadorUnoList.add(contJugador1);
                 }
-
                 matrizBotones[randomRow][randomCol] = new Pieza(tipoFantasma, "J1", randomRow, randomCol);
                 piezasJugadorUno.remove(randomIndex);
                 contJugador1++;
@@ -177,20 +185,17 @@ public class GhostGame {
             if (matrizBotones[randomRow][randomCol] == null) {
                 int randomIndex = posicionRandom(0, piezasJugadorDos.size() - 1);
                 String tipoFantasma = piezasJugadorDos.get(randomIndex);
-
-                // Agregar el conteo a la lista correspondiente (J2)
                 if (tipoFantasma.equals("BUENOS")) {
                     contadorBuenosJugadorDosList.add(contJugador2);
                 } else if (tipoFantasma.equals("MALOS")) {
                     contadorMalosJugadorDosList.add(contJugador2);
                 }
-
                 matrizBotones[randomRow][randomCol] = new Pieza(tipoFantasma, "J2", randomRow, randomCol);
                 piezasJugadorDos.remove(randomIndex);
                 contJugador2++;
             }
         }
-        // Asignar la instancia de pieza vacía a todas las posiciones restantes
+        // Asignar la instancia de pieza vacía a todas las posiciones restantes asi si funciona amover, revisar regreso, mejor que cada vez asigen esto
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
                 if (matrizBotones[i][j] == null) {
@@ -237,9 +242,9 @@ public class GhostGame {
     }
     
     public boolean datosIngresados(Pieza piezaSeleccionada) {//valida si esa pieza es de su turno
-        if (piezaSeleccionada != null) {
+        if (piezaSeleccionada != null && !piezaSeleccionada.getFantasma().equals("CASTILLO")) {
             botonSeleccionado = piezaSeleccionada;
-            if(botonSeleccionado.getJugador().equals("J1")&&turno==1){
+            if(botonSeleccionado.getJugador().equals("J1")&&turno==1 ){
                 return true;
             }else if(botonSeleccionado.getJugador().equals("J1")&&turno==2){
                 return false;
@@ -247,11 +252,14 @@ public class GhostGame {
                 return true;
             }else if(botonSeleccionado.getJugador().equals("J2")&&turno==1){
                 return false;
+            }else if(botonSeleccionado.getJugador().equals("CASTILLO")){
+                return false;
             }else{
                 return false;
             }
         }
-        return true;
+        return false;
+      
     }
     public boolean esMovimientoValidoJugador(int nuevaFila, int nuevaColumna, int filaActual, int columnaActual) {
        Pieza piezaDestino = matrizBotones[nuevaFila][nuevaColumna];

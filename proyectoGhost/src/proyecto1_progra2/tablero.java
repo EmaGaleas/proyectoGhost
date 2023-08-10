@@ -21,22 +21,18 @@ private GhostGame ghostGame;
         columnaDestino.setEnabled(false);
         setDestino.setEnabled(false);
         turno.setText("Turno de: " + ghostGame.getTurnoActual());
-        //
+        
+        // Actualizar los JLabels con los valores obtenidos
         int buenosJ1 = ghostGame.getContadorBuenosJugadorUnoList().size();
         int malosJ1 = ghostGame.getContadorMalosJugadorUnoList().size();
         int buenosJ2 = ghostGame.getContadorBuenosJugadorDosList().size();
         int malosJ2 = ghostGame.getContadorMalosJugadorDosList().size();
-
-        // Actualizar los JLabels con los valores obtenidos
         fantasmasBJ1.setText(String.valueOf(buenosJ1));
         fantasmasMJ1.setText(String.valueOf(malosJ1));
         fantasmasBJ2.setText(String.valueOf(buenosJ2));
         fantasmasMJ2.setText(String.valueOf(malosJ2));
 
-        
-        
         //ghostGame.instrucciones();
-        //ghostGame.posicionarPiezas();
     }
 
     @SuppressWarnings("unchecked")
@@ -663,18 +659,16 @@ private GhostGame ghostGame;
                         fantasmasMJ1.setText(String.valueOf(malosJ1));
                         fantasmasBJ2.setText(String.valueOf(buenosJ2));
                         fantasmasMJ2.setText(String.valueOf(malosJ2));
-                                               String imagePath = piezaSeleccionada.getImagePath();
-Icon icon = new ImageIcon(imagePath); 
-ghostGame.matrizBotones[filaSel][columnaSel].setIcon(icon);
 
-                         if (piezaDestino == null) {
-                            piezaDestino = new Pieza(piezaSeleccionada.getFantasma(), piezaSeleccionada.getJugador(), filaDest, columnaDest);
-                            piezaDestino.setImagePath(piezaSeleccionada.getImagePath());
-                            if (piezaDestino.getJugador().equals("J1")) {
-                                piezaDestino.setImagePath("RUTA_A_LA_IMAGEN_DEL_JUGADOR1"); // Reemplaza con la ruta correcta
-                            } else {
-                                piezaDestino.setImagePath("RUTA_A_LA_IMAGEN_DEL_JUGADOR2"); // Reemplaza con la ruta correcta
-                            }
+
+                        if (piezaDestino == null) {
+    piezaDestino = new Pieza(piezaSeleccionada.getFantasma(), piezaSeleccionada.getJugador(), filaDest, columnaDest);
+    piezaDestino.setImagePath(piezaSeleccionada.getImagePath());
+    if (piezaDestino.getJugador().equals("J1")) {
+        ghostGame.cambiarImagenJ1(filaDest, columnaDest);
+    } else {
+        ghostGame.cambiarImagenJ2(filaDest, columnaDest); // Cambia a cambiarPiezaJ2
+    }
                         }else{
                             if(piezaDestino.getJugador().equals(piezaSeleccionada.getJugador())){
                                  JOptionPane.showMessageDialog(null, "Te has comido a"+piezaDestino.getFantasma(), "Notificacion", JOptionPane.INFORMATION_MESSAGE);
