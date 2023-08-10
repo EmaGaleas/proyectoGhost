@@ -4,6 +4,10 @@
  */
 
 package proyecto1_progra2.clases_j;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 public class Pieza extends JButton {
@@ -44,6 +48,21 @@ public class Pieza extends JButton {
     }
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+        System.out.println("se modifico imagePath con path" + imagePath);
+        
+        if (imagePath == null) {
+            setIcon(null);
+            return;
+        }
+        
+        Image img = null;
+        try {
+            img = ImageIO.read(new File(imagePath));
+        } catch (IOException ex) {
+            System.out.println("ERROR NO SE PUDO CARGAR LA IMAGEN");
+        }
+        setIcon(new ImageIcon(img));
+        repaint();
     }
     public String getJugador() {
         return jugador;

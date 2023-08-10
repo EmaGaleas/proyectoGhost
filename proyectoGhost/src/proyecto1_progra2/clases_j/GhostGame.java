@@ -20,7 +20,7 @@ public class GhostGame {
     //atributos para inicializar tablero
     public Pieza[][] matrizBotones; //de JButton a Pieza por valores
     private String modo="ALEATORIO";//por default INICIALIZAR O SI NO ERROR
-    int dificultad=3;//por default
+    int dificultad=1;//por default
     int cantPiezas;//dependiente de dificultad 
     
     //atributos sobre piezas de jugador
@@ -145,8 +145,8 @@ public class GhostGame {
         }
     }
     public String getModo() {
-    return modo;
-}
+        return modo;
+    }
 
 public boolean esTurnoModoManual() {
     return (turno==1 && contadorBuenosJugadorUnoList.size() < cantPiezas) ||
@@ -279,15 +279,15 @@ private void posicionarManual() {
     matrizBotones[0][5] = new Pieza("CASTILLO", "J2",  0, 5);
     matrizBotones[5][0] = new Pieza("CASTILLO", "J1", 5, 0);
     matrizBotones[5][5] = new Pieza("CASTILLO", "J1",5, 5);
-    // J1 RESTRINGIR ZONAS
+    // J1 
     for (int i = 0; i < cantPiezas; i++) {
-        String tipoFantasma = JOptionPane.showInputDialog(null, "Jugador 1: Ingrese el tipo de fantasma (BUENOS/MALOS):");
+        String tipoFantasma = JOptionPane.showInputDialog(null, "Jugador 1: Ingrese CORDENADAS");
         if (tipoFantasma != null) {
             if (tipoFantasma.equals("BUENOS") || tipoFantasma.equals("MALOS")) {
                 contadorBuenosJugadorUnoList.add(i); // Agregar al contador según corresponda
                 piezasJugadorUno.add(tipoFantasma);
             } else {
-                JOptionPane.showMessageDialog(null, "Tipo de fantasma no válido. Ingrese BUENOS o MALOS.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "", "Error", JOptionPane.ERROR_MESSAGE);
                 i--; 
             }
         } else {
@@ -297,13 +297,13 @@ private void posicionarManual() {
 
     //J2
     for (int i = 0; i < cantPiezas; i++) {
-        String tipoFantasma = JOptionPane.showInputDialog(null, "Jugador 2: Ingrese el tipo de fantasma (BUENOS/MALOS):");
+        String tipoFantasma = JOptionPane.showInputDialog(null, "Jugador 2: Ingrese CORDENADAS");
         if (tipoFantasma != null) {
             if (tipoFantasma.equals("BUENOS") || tipoFantasma.equals("MALOS")) {
                 contadorBuenosJugadorDosList.add(i); // Agregar al contador según corresponda
                 piezasJugadorDos.add(tipoFantasma);
             } else {
-                JOptionPane.showMessageDialog(null, "Tipo de fantasma no válido. Ingrese BUENOS o MALOS.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "", "Error", JOptionPane.ERROR_MESSAGE);
                 i--; // Decrementar para repetir el ingreso
             }
         } else {
