@@ -594,25 +594,25 @@ private GhostGame ghostGame;
         String cSeleccion = columnaSeleccion.getText().trim();
 
         if (fSeleccion.isEmpty() || cSeleccion.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Llene las casillas", "Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Llene las casillas", "ERROR", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
                 int filaSele = Integer.parseInt(fSeleccion);
                 int cSele = Integer.parseInt(cSeleccion);
-               
-                if ((filaSele<0 || filaSele>=6) || (cSele<0 || cSele>=6)) {
-                    JOptionPane.showMessageDialog(null, "Ingrese cordenadas dentro del rango 0-5", "Error en SELECCION", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    Pieza piezaSeleccionada = ghostGame.matrizBotones[filaSele][cSele];
-                    if (ghostGame.datosIngresados(piezaSeleccionada)) {
-                        ghostGame.cambiarFondoNegro(filaSele, cSele);
-                        
-                        filaDestino.setEnabled(true);
-                        columnaDestino.setEnabled(true);
-                        setDestino.setEnabled(true);
-                        JOptionPane.showMessageDialog(null, "Puede seguir", "SELECCION", JOptionPane.INFORMATION_MESSAGE);
+                if(ghostGame.getModo().equals("ALEATORIO")){
+                    if ((filaSele<0 || filaSele>=6) || (cSele<0 || cSele>=6)) {
+                        JOptionPane.showMessageDialog(null, "Ingrese cordenadas dentro del rango 0-5", "ERROR EN SELECCION", JOptionPane.WARNING_MESSAGE);
                     } else {
-                        JOptionPane.showMessageDialog(null, "Escoja una pieza valida para mover\nRecuerda es turno de "+ghostGame.getTurnoActual(), "SELECCION", JOptionPane.WARNING_MESSAGE);
+                        Pieza piezaSeleccionada = ghostGame.matrizBotones[filaSele][cSele];
+                        if (ghostGame.datosIngresados(piezaSeleccionada)) {
+                            ghostGame.cambiarFondoNegro(filaSele, cSele);
+                            filaDestino.setEnabled(true);
+                            columnaDestino.setEnabled(true);
+                            setDestino.setEnabled(true);
+                            JOptionPane.showMessageDialog(null, "Puede seguir", "SELECCION", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Escoja una pieza valida para mover\nRecuerda es turno de "+ghostGame.getTurnoActual(), "SELECCION", JOptionPane.WARNING_MESSAGE);
+                        }
                     }
                 }
                 
@@ -653,16 +653,11 @@ System.out.println("filaDest: " + filaDest);
 System.out.println("columnaDest: " + columnaDest);
                     
                     if (ghostGame.datosIngresados(piezaSeleccionada) && ghostGame.esMovimientoValidoJugador(filaDest, columnaDest, filaSel, columnaSel)) {
-                        
-
-
                         if (piezaDestino == null) {
                             piezaDestino = new Pieza(piezaSeleccionada.getFantasma(), piezaSeleccionada.getJugador(), filaDest, columnaDest);
-
                         }else{
                             if(piezaDestino.getJugador().equals(piezaSeleccionada.getJugador())){
                                  JOptionPane.showMessageDialog(null, "Te has comido a"+piezaDestino.getFantasma(), "Notificacion", JOptionPane.INFORMATION_MESSAGE);
-                               //  buenosJ2 = ghostGame.getContadorBuenosJugadorDosList().remove(piezaSeleccionada);
                             }
                         }
                         //relacionado con destino
@@ -671,7 +666,12 @@ System.out.println("columnaDest: " + columnaDest);
                         piezaDestino.setFila(filaDest);
                         piezaDestino.setColumna(columnaDest);
                         ghostGame.matrizBotones[filaDest][columnaDest] = piezaDestino;
-                        ghostGame.cambiarImagenJ1(filaDest,columnaDest);
+                        //poner imagen segun turno
+                        if(piezaSeleccionada.getJugador().equals("J1") && ghostGame.getTurnoActual()==1){
+                            ghostGame.cambiarImagenJ1(filaDest,columnaDest);
+                        }else{
+                            ghostGame.cambiarImagenJ2(filaDest,columnaDest);
+                        }
                         ghostGame.cambiarFondoBlanco(filaDest, columnaDest);
                         //relacionado con querer mover
                         piezaSeleccionada.setFantasma("A");

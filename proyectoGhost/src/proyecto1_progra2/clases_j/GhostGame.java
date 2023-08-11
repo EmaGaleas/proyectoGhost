@@ -80,35 +80,27 @@ public class GhostGame {
             matrizButtonsUI[fila][columna].setBackground(Color.lightGray);
         }
     }
-    public void cambiarFondoAmarillo(int fila, int columna) {//LISTO QUE PONGA L AIMAGEN RESPECTIVA SEGUN EL TURNO Y PIEZA
-        if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
-            matrizButtonsUI[fila][columna].setBackground(Color.yellow);
-        }
-    }
     public JButton getButtonAt(int row, int col) {
         return matrizButtonsUI[row][col];
     }
-public void cambiarImagenJ1(int filaDest, int columnaDest) {
-    if (filaDest >= 0 && filaDest < 6 && columnaDest >= 0 && columnaDest < 6) {
-        ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/juego/fantasmaJ1.png"));
-        matrizButtonsUI[filaDest][columnaDest].setIcon(icono);
-        
-    }
-}
+    public void cambiarImagenJ1(int filaDest, int columnaDest) {
+        if (filaDest >= 0 && filaDest < 6 && columnaDest >= 0 && columnaDest < 6) {
+            ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/juego/fantasmaJ1.png"));
+            matrizButtonsUI[filaDest][columnaDest].setIcon(icono);
 
-
-public void cambiarImagenJ2(int fila, int columna) {
-        if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
-            ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/juego/fantasma.png"));
-            matrizButtonsUI[fila][columna].setIcon(icono);
         }
     }
-public void quitarImagen(int fila, int columna) {
-    if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
-        matrizButtonsUI[fila][columna].setIcon(null);
-
+    public void cambiarImagenJ2(int fila, int columna) {
+            if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
+                ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/juego/fantasma.png"));
+                matrizButtonsUI[fila][columna].setIcon(icono);
+            }
+        }
+    public void quitarImagen(int fila, int columna) {
+        if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
+            matrizButtonsUI[fila][columna].setIcon(null);
+        }
     }
-}
     public void cambiarTurno() {//listo
       turno = (turno == 1) ? 2 : 1;
     }
