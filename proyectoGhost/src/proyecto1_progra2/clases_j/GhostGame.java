@@ -35,7 +35,7 @@ public class GhostGame {
     private JButton[][] matrizButtonsUI;//ACCEDE A LOS BOTONES
 
     public GhostGame() {
-       matrizButtonsUI = new JButton[6][6]; 
+        matrizButtonsUI = new JButton[6][6]; 
         turno=1;
         piezasJugadorUno = new ArrayList<>();
         piezasJugadorDos = new ArrayList<>();
@@ -93,7 +93,12 @@ public class GhostGame {
             ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/juego/fantasmaJ1.png"));
             matrizButtonsUI[fila][columna].setIcon(icono);
         }
-    }    
+    }
+    public void quitarImagen(int fila, int columna) {
+        if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
+            matrizButtonsUI[fila][columna].setIcon(null);
+        }
+    }
     public void cambiarImagenJ2(int fila, int columna) {
         if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
             ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/juego/fantasma.png"));
@@ -261,6 +266,10 @@ public class GhostGame {
         return false;
       
     }
+    //movimientos para veriicar que el movimiento es valido
+    //funcion para trasladar los datos usando matrizbuttonsUI si movimientos es true
+    //y si hago posicionar random con buttonsUI
+    //
     public boolean esMovimientoValidoJugador(int nuevaFila, int nuevaColumna, int filaActual, int columnaActual) {
        Pieza piezaDestino = matrizBotones[nuevaFila][nuevaColumna];
         if (piezaDestino != null && piezaDestino.getJugador().equals(botonSeleccionado.getJugador())) {
@@ -298,13 +307,12 @@ public class GhostGame {
             return false;
         }
     }
-    public boolean esTurnoModoManual() {
-        return (turno==1 && contadorBuenosJugadorUnoList.size() < cantPiezas) ||
-               (turno==2 && contadorBuenosJugadorDosList.size() < cantPiezas);
-    }
+public boolean esTurnoModoManual() {
+    return (turno==1 && contadorBuenosJugadorUnoList.size() < cantPiezas) ||
+           (turno==2 && contadorBuenosJugadorDosList.size() < cantPiezas);
+}
 
- 
-    
+  
 private void posicionarManual() {
     matrizBotones[0][0] = new Pieza("CASTILLO", "J2", 0, 0);
     matrizBotones[0][5] = new Pieza("CASTILLO", "J2",  0, 5);
@@ -345,29 +353,3 @@ private void posicionarManual() {
 }
 
 }
-        //REVISAR OTRO TRUE
-//    private boolean noEsCastillo(int filaDestino, int columnaDestino) {
-//        if (piezaDestino != null) {
-//            String destino = matrizBotones[filaDestino][columnaDestino].getFantasma();
-//            if ("CASTILLO".equals(destino) ) {
-//                return false;
-//            }
-//        }
-//        return true; 
-//    }
-    //REVISAR
-//    private boolean esMovimientoValido(int filaDestino, int columnaDestino) {
-//        if (piezaDestino == null) {
-//            return true;
-//        }
-//
-//        String destino = matrizBotones[filaDestino][columnaDestino].getFantasma();
-//        String jugadorDestino = matrizBotones[filaDestino][columnaDestino].getJugador();
-//
-//        if (!"CASTILLO".equals(destino) && (("J1".equals(piezaDestino.getJugador()) && !"J1".equals(jugadorDestino))
-//                || ("J2".equals(piezaDestino.getJugador()) && !"J2".equals(jugadorDestino)))) {
-//            return false;
-//        }
-//
-//        return false;
-//    }
