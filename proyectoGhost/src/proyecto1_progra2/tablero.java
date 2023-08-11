@@ -631,6 +631,7 @@ private GhostGame ghostGame;
         String cSeleccion = columnaSeleccion.getText().trim();
         String fDestino = filaDestino.getText().trim();
         String cDestino = columnaDestino.getText().trim();
+        
         if (fDestino.isEmpty() || cDestino.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Llene las casillas de destino", "ERROR", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -645,24 +646,18 @@ private GhostGame ghostGame;
                 } else {
                     Pieza piezaSeleccionada = ghostGame.matrizBotones[filaSel][columnaSel];
                     Pieza piezaDestino = ghostGame.matrizBotones[filaDest][columnaDest];
+                    
 System.out.println("filaSel: " + filaSel);
 System.out.println("columnaSel: " + columnaSel);
 System.out.println("filaDest: " + filaDest);
 System.out.println("columnaDest: " + columnaDest);
                     
                     if (ghostGame.datosIngresados(piezaSeleccionada) && ghostGame.esMovimientoValidoJugador(filaDest, columnaDest, filaSel, columnaSel)) {
-                        int buenosJ1 = ghostGame.getContadorBuenosJugadorUnoList().size();
-                        int malosJ1 = ghostGame.getContadorMalosJugadorUnoList().size();
-                        int buenosJ2 = ghostGame.getContadorBuenosJugadorDosList().size();
-                        int malosJ2 = ghostGame.getContadorMalosJugadorDosList().size();
-                        fantasmasBJ1.setText(String.valueOf(buenosJ1));
-                        fantasmasMJ1.setText(String.valueOf(malosJ1));
-                        fantasmasBJ2.setText(String.valueOf(buenosJ2));
-                        fantasmasMJ2.setText(String.valueOf(malosJ2));
+                        
 
 
                         if (piezaDestino == null) {
-    piezaDestino = new Pieza(piezaSeleccionada.getFantasma(), piezaSeleccionada.getJugador(), filaDest, columnaDest);
+                            piezaDestino = new Pieza(piezaSeleccionada.getFantasma(), piezaSeleccionada.getJugador(), filaDest, columnaDest);
 
                         }else{
                             if(piezaDestino.getJugador().equals(piezaSeleccionada.getJugador())){
@@ -670,22 +665,20 @@ System.out.println("columnaDest: " + columnaDest);
                                //  buenosJ2 = ghostGame.getContadorBuenosJugadorDosList().remove(piezaSeleccionada);
                             }
                         }
-ghostGame.cambiarImagenJ1(filaDest, columnaDest);
-ghostGame.quitarImagen(filaSel, columnaSel);
-
+                        //relacionado con destino
                         piezaDestino.setFantasma(piezaSeleccionada.getFantasma());
                         piezaDestino.setJugador(piezaSeleccionada.getJugador());
                         piezaDestino.setFila(filaDest);
                         piezaDestino.setColumna(columnaDest);
-ghostGame.cambiarFondoBlanco(filaSel, columnaSel);
+                        ghostGame.matrizBotones[filaDest][columnaDest] = piezaDestino;
+                        ghostGame.cambiarImagenJ1(filaDest,columnaDest);
+                        ghostGame.cambiarFondoBlanco(filaDest, columnaDest);
+                        //relacionado con querer mover
                         piezaSeleccionada.setFantasma("A");
-                        piezaSeleccionada.setImagePath(null);
                         piezaSeleccionada.setJugador("A");
-                        piezaSeleccionada.setIcon(null);
-                        piezaSeleccionada.setFila(filaSel);
-                        piezaSeleccionada.setColumna(columnaSel);
-                        
-ghostGame.cambiarFondoAmarillo(filaDest, columnaDest);      
+                        ghostGame.quitarImagen(filaSel, columnaSel);
+                        ghostGame.cambiarFondoBlanco(filaSel, columnaSel);
+                        //realcionado con turno
                         ghostGame.cambiarTurno();
                         turno.setText("Turno de: " + ghostGame.getTurnoActual());
                         filaSeleccion.setText("");
@@ -695,14 +688,22 @@ ghostGame.cambiarFondoAmarillo(filaDest, columnaDest);
                         filaDestino.setEnabled(false);
                         columnaDestino.setEnabled(false);
                         setDestino.setEnabled(false);
-
+                        //actualizar los jlabel por si se "come"
+                        int buenosJ1 = ghostGame.getContadorBuenosJugadorUnoList().size();
+                        int malosJ1 = ghostGame.getContadorMalosJugadorUnoList().size();
+                        int buenosJ2 = ghostGame.getContadorBuenosJugadorDosList().size();
+                        int malosJ2 = ghostGame.getContadorMalosJugadorDosList().size();
+                        fantasmasBJ1.setText(String.valueOf(buenosJ1));
+                        fantasmasMJ1.setText(String.valueOf(malosJ1));
+                        fantasmasBJ2.setText(String.valueOf(buenosJ2));
+                        fantasmasMJ2.setText(String.valueOf(malosJ2));
                     } else {
                         JOptionPane.showMessageDialog(null, "Movimiento no válido", "Error", JOptionPane.WARNING_MESSAGE);
                     }
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Ingrese números válidos", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ingrese numeros válidos", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);
             }catch(Exception e){
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Error final", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);
