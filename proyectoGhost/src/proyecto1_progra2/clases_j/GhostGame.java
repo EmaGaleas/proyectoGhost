@@ -20,7 +20,7 @@ public class GhostGame {
     //atributos para inicializar tablero
     public Pieza[][] matrizBotones; //de JButton a Pieza por valores
     private String modo="ALEATORIO";//por default INICIALIZAR O SI NO ERROR
-    int dificultad=1;//por default
+    int dificultad=4;//por default
     int cantPiezas;//dependiente de dificultad 
     
     //atributos sobre piezas de jugador
@@ -86,8 +86,7 @@ public class GhostGame {
     public void cambiarImagenJ1(int filaDest, int columnaDest) {
         if (filaDest >= 0 && filaDest < 6 && columnaDest >= 0 && columnaDest < 6) {
             ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/juego/fantasmaJ1.png"));
-            matrizButtonsUI[filaDest][columnaDest].setIcon(icono);
-
+            matrizButtonsUI[filaDest][columnaDest].setIcon(icono);        
         }
     }
     public void cambiarImagenJ2(int fila, int columna) {
@@ -235,6 +234,21 @@ public class GhostGame {
     }
     public ArrayList<Integer> getContadorMalosJugadorDosList() {
         return contadorMalosJugadorDosList;
+    }
+
+    public int estadoPartidaActual() {
+        int bJ1 = contadorBuenosJugadorUnoList.size();
+        int mJ1 = contadorMalosJugadorUnoList.size();
+        int bJ2 = contadorBuenosJugadorDosList.size();
+        int mJ2 = contadorMalosJugadorDosList.size();
+
+        if ((bJ1==0 && turno==2) || (mJ2==0 && turno==1)) {
+            return 2; //jugador 2 gana
+        } else if ((bJ2==0 && turno==1) || (mJ1==0 && turno==2)) {
+            return 1; //jugador 1 gana
+        } else {
+            return 0; //no termina
+        }
     }
     public boolean datosIngresados(Pieza piezaSeleccionada) {//valida si esa pieza es de su turno
         if (piezaSeleccionada != null && !piezaSeleccionada.getFantasma().equals("CASTILLO")) {

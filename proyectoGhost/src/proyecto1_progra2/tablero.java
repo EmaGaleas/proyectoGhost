@@ -608,18 +608,15 @@ private GhostGame ghostGame;
                             ghostGame.cambiarFondoNegro(filaSele, cSele);
                             filaDestino.setEnabled(true);
                             columnaDestino.setEnabled(true);
-                            setDestino.setEnabled(true);
-                            JOptionPane.showMessageDialog(null, "Puede seguir", "SELECCION", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
+                            setDestino.setEnabled(true);                        } else {
                             JOptionPane.showMessageDialog(null, "Escoja una pieza valida para mover\nRecuerda es turno de "+ghostGame.getTurnoActual(), "SELECCION", JOptionPane.WARNING_MESSAGE);
                         }
                     }
+                }else{//modo manual
+                    //que ponga todas la spiezas en el tablero y que hasta despues de todo ponga en blanco todas las casillas y empieza juego
+                  //       JOptionPane.showMessageDialog(null, "Jugador " + ghostGame.getTurnoActual() + ": Coloca tus piezas en el tablero.", "Modo Manual", JOptionPane.INFORMATION_MESSAGE);
+
                 }
-                
-//    if (ghostGame.getModo().equals("MANUAL") && ghostGame.esTurnoModoManual()) {//no disponible sol opureba
-//        // Permitir que el jugador coloque sus piezas en modo manual
-//        JOptionPane.showMessageDialog(null, "Jugador " + ghostGame.getTurnoActual() + ": Coloca tus piezas en el tablero.", "Modo Manual", JOptionPane.INFORMATION_MESSAGE);
-//    }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "INGRESE NUMEROS", "Error en SELECCION", JOptionPane.ERROR_MESSAGE);
             }
@@ -631,7 +628,6 @@ private GhostGame ghostGame;
         String cSeleccion = columnaSeleccion.getText().trim();
         String fDestino = filaDestino.getText().trim();
         String cDestino = columnaDestino.getText().trim();
-        
         if (fDestino.isEmpty() || cDestino.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Llene las casillas de destino", "ERROR", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -640,25 +636,21 @@ private GhostGame ghostGame;
                 int columnaSel = Integer.parseInt(cSeleccion);
                 int filaDest = Integer.parseInt(fDestino);
                 int columnaDest = Integer.parseInt(cDestino);
-
-                if ((filaDest < 0 || filaDest >= 6) || (columnaDest < 0 || columnaDest >= 6)) {
+                if ((filaDest<0 || filaDest>=6) || (columnaDest<0 || columnaDest>=6)) {
                     JOptionPane.showMessageDialog(null, "Ingrese coordenadas dentro del rango 0-5", "Error en DESTINO", JOptionPane.WARNING_MESSAGE);
                 } else {
                     Pieza piezaSeleccionada = ghostGame.matrizBotones[filaSel][columnaSel];
                     Pieza piezaDestino = ghostGame.matrizBotones[filaDest][columnaDest];
-                    
-System.out.println("filaSel: " + filaSel);
-System.out.println("columnaSel: " + columnaSel);
-System.out.println("filaDest: " + filaDest);
-System.out.println("columnaDest: " + columnaDest);
-                    
                     if (ghostGame.datosIngresados(piezaSeleccionada) && ghostGame.esMovimientoValidoJugador(filaDest, columnaDest, filaSel, columnaSel)) {
                         if (piezaDestino == null) {
                             piezaDestino = new Pieza(piezaSeleccionada.getFantasma(), piezaSeleccionada.getJugador(), filaDest, columnaDest);
-                        }else{
-                            if(piezaDestino.getJugador().equals(piezaSeleccionada.getJugador())){
-                                 JOptionPane.showMessageDialog(null, "Te has comido a"+piezaDestino.getFantasma(), "Notificacion", JOptionPane.INFORMATION_MESSAGE);
-                            }
+                        }else{//aqui va la logica de dodne sea que mueva
+                            if(!piezaDestino.getJugador().equals("A"))  
+                                JOptionPane.showMessageDialog(null, "Te has comido a fantasma "+piezaDestino.getFantasma()+"\nDel jugador "+piezaDestino.getJugador(), "Notificacion", JOptionPane.INFORMATION_MESSAGE);
+                            int buenosJ1 = ghostGame.getContadorBuenosJugadorUnoList().size();
+                            int malosJ1 = ghostGame.getContadorMalosJugadorUnoList().size();
+                            int buenosJ2 = ghostGame.getContadorBuenosJugadorDosList().size();
+                            int malosJ2 = ghostGame.getContadorMalosJugadorDosList().size();
                         }
                         //relacionado con destino
                         piezaDestino.setFantasma(piezaSeleccionada.getFantasma());
@@ -697,6 +689,22 @@ System.out.println("columnaDest: " + columnaDest);
                         fantasmasMJ1.setText(String.valueOf(malosJ1));
                         fantasmasBJ2.setText(String.valueOf(buenosJ2));
                         fantasmasMJ2.setText(String.valueOf(malosJ2));
+int resultadoPartida = ghostGame.estadoPartidaActual();
+if (resultadoPartida == 1) {
+    JOptionPane.showMessageDialog(null, "Ha ganado turno 1", "FIN", JOptionPane.INFORMATION_MESSAGE);
+    filaSeleccion.setEnabled(false);
+    filaSeleccion.setEnabled(false);
+    filaSeleccion.setEnabled(false);
+    getMover.setEnabled(true);
+} else if (resultadoPartida == 2) {
+    JOptionPane.showMessageDialog(null, "Ha ganado turno 2", "FIN", JOptionPane.INFORMATION_MESSAGE);
+    filaSeleccion.setEnabled(false);
+    filaSeleccion.setEnabled(false);
+    filaSeleccion.setEnabled(false);
+    getMover.setEnabled(true);
+} else {
+    
+}
                     } else {
                         JOptionPane.showMessageDialog(null, "Movimiento no válido", "Error", JOptionPane.WARNING_MESSAGE);
                     }
@@ -710,7 +718,10 @@ System.out.println("columnaDest: " + columnaDest);
             }
         }
     }//GEN-LAST:event_setDestinoMouseClicked
-
+//System.out.println("filaSel: " + filaSel);
+//System.out.println("columnaSel: " + columnaSel);
+//System.out.println("filaDest: " + filaDest);
+//System.out.println("columnaDest: " + columnaDest);
     /**
      * @param args the command line arguments
      */
