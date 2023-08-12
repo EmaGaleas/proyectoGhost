@@ -628,6 +628,7 @@ private GhostGame ghostGame;
         String cSeleccion = columnaSeleccion.getText().trim();
         String fDestino = filaDestino.getText().trim();
         String cDestino = columnaDestino.getText().trim();
+
         if (fDestino.isEmpty() || cDestino.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Llene las casillas de destino", "ERROR", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -645,12 +646,12 @@ private GhostGame ghostGame;
                         if (piezaDestino == null) {
                             piezaDestino = new Pieza(piezaSeleccionada.getFantasma(), piezaSeleccionada.getJugador(), filaDest, columnaDest);
                         }else{//aqui va la logica de dodne sea que mueva
-                            if(!piezaDestino.getJugador().equals("A"))  
-                                JOptionPane.showMessageDialog(null, "Te has comido a fantasma "+piezaDestino.getFantasma()+"\nDel jugador "+piezaDestino.getJugador(), "Notificacion", JOptionPane.INFORMATION_MESSAGE);
-                            int buenosJ1 = ghostGame.getContadorBuenosJugadorUnoList().size();
-                            int malosJ1 = ghostGame.getContadorMalosJugadorUnoList().size();
-                            int buenosJ2 = ghostGame.getContadorBuenosJugadorDosList().size();
-                            int malosJ2 = ghostGame.getContadorMalosJugadorDosList().size();
+                             if (!piezaDestino.getJugador().equals("A")) {
+                                    JOptionPane.showMessageDialog(null, "Te has comido a fantasma\t" + piezaDestino.getFantasma() + "\nDel jugador\t" + piezaDestino.getJugador(), "NOTIFICACION", JOptionPane.INFORMATION_MESSAGE);
+                                    
+
+                            }
+                             
                         }
                         //relacionado con destino
                         piezaDestino.setFantasma(piezaSeleccionada.getFantasma());
@@ -689,6 +690,7 @@ private GhostGame ghostGame;
                         fantasmasMJ1.setText(String.valueOf(malosJ1));
                         fantasmasBJ2.setText(String.valueOf(buenosJ2));
                         fantasmasMJ2.setText(String.valueOf(malosJ2));
+                       
 int resultadoPartida = ghostGame.estadoPartidaActual();
 if (resultadoPartida == 1) {
     JOptionPane.showMessageDialog(null, "Ha ganado turno 1", "FIN", JOptionPane.INFORMATION_MESSAGE);
@@ -709,6 +711,22 @@ if (resultadoPartida == 1) {
                         JOptionPane.showMessageDialog(null, "Movimiento no válido", "Error", JOptionPane.WARNING_MESSAGE);
                     }
                 }
+                int resultadoPartida = ghostGame.estadoPartidaActual();                                        
+                if (resultadoPartida == 1) {
+                                            JOptionPane.showMessageDialog(null, "Ha ganado turno 1", "FIN", JOptionPane.INFORMATION_MESSAGE);
+                                            filaSeleccion.setEnabled(false);
+                                            filaSeleccion.setEnabled(false);
+                                            filaSeleccion.setEnabled(false);
+                                            getMover.setEnabled(true);
+                                        } else if (resultadoPartida == 2) {
+                                            JOptionPane.showMessageDialog(null, "Ha ganado turno 2", "FIN", JOptionPane.INFORMATION_MESSAGE);
+                                            filaSeleccion.setEnabled(false);
+                                            filaSeleccion.setEnabled(false);
+                                            filaSeleccion.setEnabled(false);
+                                            getMover.setEnabled(true);
+                                        } else {
+
+                                        }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Ingrese numeros válidos", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);
@@ -717,6 +735,7 @@ if (resultadoPartida == 1) {
                 JOptionPane.showMessageDialog(null, "Error final", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);
             }
         }
+        
     }//GEN-LAST:event_setDestinoMouseClicked
 //System.out.println("filaSel: " + filaSel);
 //System.out.println("columnaSel: " + columnaSel);

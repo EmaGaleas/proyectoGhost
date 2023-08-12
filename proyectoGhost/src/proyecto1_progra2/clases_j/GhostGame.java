@@ -15,7 +15,7 @@ public class GhostGame {
     //atrubutos mover pieza
     private Pieza piezaDestino;
     private Pieza botonSeleccionado;//obtener datos
-    private int turno;
+    private int turno=1;
     
     //atributos para inicializar tablero
     public Pieza[][] matrizBotones; //de JButton a Pieza por valores
@@ -36,23 +36,22 @@ public class GhostGame {
 
     public GhostGame() {
         matrizButtonsUI = new JButton[6][6]; 
-        turno=1;
+        //turno=1;
         piezasJugadorUno = new ArrayList<>();
         piezasJugadorDos = new ArrayList<>();
     }
     
-     public void GridLayout(JPanel tablero) {
+    public void GridLayout(JPanel tablero) {//LISTO
         int filas = 6;
         int col = 6;
         GridLayout gridLayout = new GridLayout(filas, col);
         tablero.setLayout(gridLayout);
         matrizBotones = new Pieza[filas][col];
-
         posicionarPiezasAleatorio();
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < col; j++) {
                 final Pieza pieza = matrizBotones[i][j]; 
-                JButton button = new JButton(); // Create a new JButton
+                JButton button = new JButton(); //CREAR JBUTTON
                 matrizButtonsUI[i][j] = button;
                 if (pieza != null && pieza.getFantasma().length() > 0 && pieza.getImagePath() != null && pieza.getImagePath().length() > 0) {
                     ImageIcon icon = new ImageIcon(pieza.getImagePath());
@@ -74,39 +73,35 @@ public class GhostGame {
             matrizButtonsUI[fila][columna].setBackground(Color.BLACK);
         }
     }
-
     public void cambiarFondoBlanco(int fila, int columna) {//LISTO
         if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
             matrizButtonsUI[fila][columna].setBackground(Color.lightGray);
         }
     }
-    public JButton getButtonAt(int row, int col) {
-        return matrizButtonsUI[row][col];
-    }
-    public void cambiarImagenJ1(int filaDest, int columnaDest) {
+    public void cambiarImagenJ1(int filaDest, int columnaDest) {//LISTO
         if (filaDest >= 0 && filaDest < 6 && columnaDest >= 0 && columnaDest < 6) {
             ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/juego/fantasmaJ1.png"));
             matrizButtonsUI[filaDest][columnaDest].setIcon(icono);        
         }
     }
-    public void cambiarImagenJ2(int fila, int columna) {
-            if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
-                ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/juego/fantasma.png"));
-                matrizButtonsUI[fila][columna].setIcon(icono);
-            }
+    public void cambiarImagenJ2(int filaDest, int columnaDest) {//LISTO
+        if (filaDest >= 0 && filaDest < 6 && columnaDest >= 0 && columnaDest < 6) {
+            ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/juego/fantasma.png"));
+            matrizButtonsUI[filaDest][columnaDest].setIcon(icono);
         }
-    public void quitarImagen(int fila, int columna) {
+    }
+    public void quitarImagen(int fila, int columna) {//LISTO
         if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
             matrizButtonsUI[fila][columna].setIcon(null);
         }
     }
-    public void cambiarTurno() {//listo
-      turno = (turno == 1) ? 2 : 1;
+    public void cambiarTurno() {//LISTO
+      turno=(turno==1)?2:1;
     }
-    public int getTurnoActual() {//listo
+    public int getTurnoActual() {//LISTO
         return turno;
     }
-    public void modo(){//listo
+    public void modo(){//LISTO
         switch(modo.toUpperCase()){
             case "ALEATORIO":
                 posicionarPiezasAleatorio();
@@ -120,11 +115,11 @@ public class GhostGame {
                 break;
         }
     }
-    public String getModo() {//listo
+    public String getModo() {//LISTO
         return modo;
     }
-     public int difi(){
-       switch (dificultad){
+    public int difi(){//LISTO
+        switch (dificultad){
             case 1:
                 cantPiezas=2;
                 break;
@@ -139,12 +134,11 @@ public class GhostGame {
         }
        return cantPiezas;
     }
-    private int posicionRandom(int min, int max) {
+    private int posicionRandom(int min, int max) {//LISTO
         Random random=new Random();
         return random.nextInt(max-min+1)+min;
     }
-    //pendiente lo de fantasmas
-    public void posicionarPiezasAleatorio() {
+    public void posicionarPiezasAleatorio() {//PENDIENTE FANTASMA FALSO/TRAMPA
         for (int p = 0; p < dificultad; p++) {//cuantos en array, <2 es 4, <3 es 6 <4 es 8
             piezasJugadorUno.add("BUENOS");
             piezasJugadorUno.add("MALOS");
@@ -193,7 +187,6 @@ public class GhostGame {
                 contJugador2++;
             }
         }
-        // Asignar la instancia de pieza vacía a todas las posiciones restantes asi si funciona amover, revisar regreso, mejor que cada vez asigen esto
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
                 if (matrizBotones[i][j] == null) {
@@ -203,15 +196,18 @@ public class GhostGame {
             }
         }
     }
-    //informativo al dar click en piezas
-    private void mostrarInformacionPieza(Pieza pieza) {
+    private void mostrarInformacionPieza(Pieza pieza) {//LISTO
         if (pieza!=null) {
-            String info="Tipo "+pieza.getFantasma()+"\nJugador "+pieza.getJugador()+"\nF"+pieza.getFila()+"\nC"+pieza.getColumna();
-            JOptionPane.showMessageDialog(null, info, "Info", JOptionPane.INFORMATION_MESSAGE);
+            if(pieza.getJugador().equals("J1") && turno==1){
+                String info="Tipo "+pieza.getFantasma()+"\nJugador "+pieza.getJugador()+"\nF"+pieza.getFila()+"\nC"+pieza.getColumna();
+                JOptionPane.showMessageDialog(null, info, "Info", JOptionPane.INFORMATION_MESSAGE);
+            }else if(pieza.getJugador().equals("J2") && turno==2){
+                String info="Tipo "+pieza.getFantasma()+"\nJugador "+pieza.getJugador()+"\nF"+pieza.getFila()+"\nC"+pieza.getColumna();
+                JOptionPane.showMessageDialog(null, info, "Info", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
-    //informativo
-    public void instrucciones(){
+    public void instrucciones(){//? LISTO
         String reglas="COMO GANAR:\nF1-Capturar TODOS LOS BUENOS del oponente\nF2-Si te han capturado los MALOS\nF3-Si sacas un FANTASMA BUENO "
                 + "del castillo del oponente\nF4-Si tu oponente se rinde";
         JOptionPane.showMessageDialog(null,reglas, "REGLAS", JOptionPane.INFORMATION_MESSAGE);
@@ -223,26 +219,25 @@ public class GhostGame {
             JOptionPane.showMessageDialog(null,"MODO MANUAL\nTu decides el orden de tus piezas", "MODO", JOptionPane.NO_OPTION);
         }
     }
-    public ArrayList<Integer> getContadorBuenosJugadorUnoList() {
+    public ArrayList<Integer> getContadorBuenosJugadorUnoList() {//LISTO
         return contadorBuenosJugadorUnoList;
     }
-    public ArrayList<Integer> getContadorMalosJugadorUnoList() {
+    public ArrayList<Integer> getContadorMalosJugadorUnoList() {//LISTO
         return contadorMalosJugadorUnoList;
     }
-    public ArrayList<Integer> getContadorBuenosJugadorDosList() {
+    public ArrayList<Integer> getContadorBuenosJugadorDosList() {//LISTO
         return contadorBuenosJugadorDosList;
     }
-    public ArrayList<Integer> getContadorMalosJugadorDosList() {
+    public ArrayList<Integer> getContadorMalosJugadorDosList() {//LISTO
         return contadorMalosJugadorDosList;
     }
-
-    public int estadoPartidaActual() {
+    public int estadoPartidaActual() {//pendiente si saca de castillo
         int bJ1 = contadorBuenosJugadorUnoList.size();
         int mJ1 = contadorMalosJugadorUnoList.size();
         int bJ2 = contadorBuenosJugadorDosList.size();
         int mJ2 = contadorMalosJugadorDosList.size();
 
-        if ((bJ1==0 && turno==2) || (mJ2==0 && turno==1)) {
+        if ((bJ1==0 && turno==2) || (mJ2==0 && turno==1)) {//o si saca un fantasma bueno gana sino pierde de castillo
             return 2; //jugador 2 gana
         } else if ((bJ2==0 && turno==1) || (mJ1==0 && turno==2)) {
             return 1; //jugador 1 gana
@@ -269,33 +264,53 @@ public class GhostGame {
         }
         return false;
     }
-    //movimientos para veriicar que el movimiento es valido
-    //funcion para trasladar los datos usando matrizbuttonsUI si movimientos es true
-    //y si hago posicionar random con buttonsUI
-    //
-    public boolean esMovimientoValidoJugador(int nuevaFila, int nuevaColumna, int filaActual, int columnaActual) {
+    private String ghostCastillo() {
+        Random random = new Random();
+        int randomNumber = random.nextInt(2); 
+        if (randomNumber == 0) {
+            return "BUENOS";
+        } else {
+            return "MALOS";
+        }
+    }
+    public boolean esMovimientoValidoJugador(int nuevaFila, int nuevaColumna, int filaActual, int columnaActual) {//LISTO AQ PENDIENTE TRAMPA
        Pieza piezaDestino = matrizBotones[nuevaFila][nuevaColumna];
-        if (piezaDestino != null && piezaDestino.getJugador().equals(botonSeleccionado.getJugador())) {
+        if(piezaDestino !=null  && piezaDestino.getFantasma().equals("CASTILLO")&& !piezaDestino.getJugador().equals(botonSeleccionado.getJugador()) ){
+            String tipoFantasma = ghostCastillo();
+            JOptionPane.showMessageDialog(null, "Te has encontrado con un fantasma " + tipoFantasma, "Fantasma Generado", JOptionPane.INFORMATION_MESSAGE);
+            return false; 
+        }
+        if (piezaDestino != null && piezaDestino.getJugador().equals(botonSeleccionado.getJugador()) ||(piezaDestino.getFantasma().equals("CASTILLO"))) {
             System.out.println("No puedes mover sobre una pieza propia");
             return false;
         }
-        if (piezaDestino != null) {
-            // Verificar si la casilla de destino contiene una pieza del jugador contrario
+ 
+        if (piezaDestino !=null  && !piezaDestino.getJugador().equals("CASTILLO")) {
             if (!piezaDestino.getJugador().equals(botonSeleccionado.getJugador())) {
                 if (piezaDestino.getJugador().equals("J1")) {
+                    if(piezaDestino.getFantasma().equals("BUENOS")){
+                        contadorBuenosJugadorUnoList.remove(contadorBuenosJugadorUnoList.size()-1);
+                        System.out.println("pieza elimidada 1 buena");
+                    }else if(piezaDestino.getFantasma().equals("MALOS")){
+                        contadorMalosJugadorUnoList.remove(contadorMalosJugadorUnoList.size()-1);
+                        System.out.println("pieza elimidada 1 mala");
+                    }
                     piezasJugadorUno.remove(piezaDestino.getFantasma());
-                     System.out.println("pieza elimidada 1");
-
                 } else if (piezaDestino.getJugador().equals("J2")) {
-                   System.out.println("pieza elimidada 2");
+                    if(piezaDestino.getFantasma().equals("BUENOS")){
+                        contadorBuenosJugadorDosList.remove(contadorBuenosJugadorDosList.size()-1);
+                       System.out.println("pieza elimidada 2 buena");
+                    }else if (piezaDestino.getFantasma().equals("MALOS")){
+                        contadorMalosJugadorDosList.remove(contadorMalosJugadorDosList.size()-1);
+                        System.out.println("pieza elimidada 2 mala");
+                    }
                     piezasJugadorDos.remove(piezaDestino.getFantasma());
                 }
-                // Actualizar la casilla para icon
                 matrizBotones[nuevaFila][nuevaColumna] = null;
             }
         }
         if (matrizBotones[nuevaFila][nuevaColumna] == null && (nuevaFila == filaActual && ((nuevaColumna == columnaActual + 1) || (nuevaColumna == columnaActual - 1)))||
-                (nuevaColumna == columnaActual && ((nuevaFila == filaActual + 1) || (nuevaFila == filaActual - 1)))) {
+            (nuevaColumna == columnaActual && ((nuevaFila == filaActual + 1) || (nuevaFila == filaActual - 1)))) {
             System.out.println("Movimiento válido a casilla vacía");
             return true;
         }
@@ -310,6 +325,7 @@ public class GhostGame {
             return false;
         }
     }
+    
 public boolean esTurnoModoManual() {
     return (turno==1 && contadorBuenosJugadorUnoList.size() < cantPiezas) ||
            (turno==2 && contadorBuenosJugadorDosList.size() < cantPiezas);
