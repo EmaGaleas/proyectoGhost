@@ -647,11 +647,22 @@ private GhostGame ghostGame;
                             piezaDestino = new Pieza(piezaSeleccionada.getFantasma(), piezaSeleccionada.getJugador(), filaDest, columnaDest);
                         }else{//aqui va la logica de dodne sea que mueva
                              if (!piezaDestino.getJugador().equals("A")) {
-                                    JOptionPane.showMessageDialog(null, "Te has comido a fantasma\t" + piezaDestino.getFantasma() + "\nDel jugador\t" + piezaDestino.getJugador(), "NOTIFICACION", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Te has comido a fantasma\t" + piezaDestino.getFantasma() + "\nDel jugador\t" + piezaDestino.getJugador(), "NOTIFICACION", JOptionPane.INFORMATION_MESSAGE);
+                                int resultadoPartida = ghostGame.estadoPartidaActual();
+                                if (resultadoPartida==1) {
+                                    filaSeleccion.setEnabled(false);
+                                    columnaSeleccion.setEnabled(false);
+                                    filaSeleccion.setEnabled(false);
+                                    getMover.setEnabled(false);
+                                } else if (resultadoPartida == 2) {
+                                    filaSeleccion.setEnabled(false);
+                                    columnaSeleccion.setEnabled(false);
+                                    filaSeleccion.setEnabled(false);
+                                    getMover.setEnabled(false);
+                                } else {
                                     
-
+                                }
                             }
-                             
                         }
                         //relacionado con destino
                         piezaDestino.setFantasma(piezaSeleccionada.getFantasma());
@@ -662,7 +673,7 @@ private GhostGame ghostGame;
                         //poner imagen segun turno
                         if(piezaSeleccionada.getJugador().equals("J1") && ghostGame.getTurnoActual()==1){
                             ghostGame.cambiarImagenJ1(filaDest,columnaDest);
-                        }else{
+                        }else if(piezaSeleccionada.getJugador().equals("J2") && ghostGame.getTurnoActual()==2){
                             ghostGame.cambiarImagenJ2(filaDest,columnaDest);
                         }
                         ghostGame.cambiarFondoBlanco(filaDest, columnaDest);
@@ -690,46 +701,13 @@ private GhostGame ghostGame;
                         fantasmasMJ1.setText(String.valueOf(malosJ1));
                         fantasmasBJ2.setText(String.valueOf(buenosJ2));
                         fantasmasMJ2.setText(String.valueOf(malosJ2));
-                       
-int resultadoPartida = ghostGame.estadoPartidaActual();
-if (resultadoPartida == 1) {
-    JOptionPane.showMessageDialog(null, "Ha ganado turno 1", "FIN", JOptionPane.INFORMATION_MESSAGE);
-    filaSeleccion.setEnabled(false);
-    filaSeleccion.setEnabled(false);
-    filaSeleccion.setEnabled(false);
-    getMover.setEnabled(true);
-} else if (resultadoPartida == 2) {
-    JOptionPane.showMessageDialog(null, "Ha ganado turno 2", "FIN", JOptionPane.INFORMATION_MESSAGE);
-    filaSeleccion.setEnabled(false);
-    filaSeleccion.setEnabled(false);
-    filaSeleccion.setEnabled(false);
-    getMover.setEnabled(true);
-} else {
-    
-}
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Movimiento no válido", "Error", JOptionPane.WARNING_MESSAGE);
+                    }else {
+                        JOptionPane.showMessageDialog(null, "Movimiento sobre esta pieza no valido", "Error", JOptionPane.WARNING_MESSAGE);
                     }
                 }
-                int resultadoPartida = ghostGame.estadoPartidaActual();                                        
-                if (resultadoPartida == 1) {
-                                            JOptionPane.showMessageDialog(null, "Ha ganado turno 1", "FIN", JOptionPane.INFORMATION_MESSAGE);
-                                            filaSeleccion.setEnabled(false);
-                                            filaSeleccion.setEnabled(false);
-                                            filaSeleccion.setEnabled(false);
-                                            getMover.setEnabled(true);
-                                        } else if (resultadoPartida == 2) {
-                                            JOptionPane.showMessageDialog(null, "Ha ganado turno 2", "FIN", JOptionPane.INFORMATION_MESSAGE);
-                                            filaSeleccion.setEnabled(false);
-                                            filaSeleccion.setEnabled(false);
-                                            filaSeleccion.setEnabled(false);
-                                            getMover.setEnabled(true);
-                                        } else {
-
-                                        }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Ingrese numeros válidos", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ingrese numeros validos", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);
             }catch(Exception e){
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Error final", "Error en DESTINO", JOptionPane.ERROR_MESSAGE);

@@ -20,8 +20,9 @@ public class GhostGame {
     //atributos para inicializar tablero
     public Pieza[][] matrizBotones; //de JButton a Pieza por valores
     private String modo="ALEATORIO";//por default INICIALIZAR O SI NO ERROR
-    int dificultad=4;//por default
+    int dificultad=1;//por default
     int cantPiezas;//dependiente de dificultad 
+    int trampas;
     
     //atributos sobre piezas de jugador
     private ArrayList<String> piezasJugadorUno;
@@ -122,12 +123,15 @@ public class GhostGame {
         switch (dificultad){
             case 1:
                 cantPiezas=2;
+                trampas=4;
                 break;
-            case 3:
-                cantPiezas=6;
+            case 2:
+                cantPiezas=4;
+                trampas=0;
                 break;
             case 4:
                 cantPiezas=8;
+                trampas=0;
                 break;
             default:
                 cantPiezas=8;
@@ -187,6 +191,25 @@ public class GhostGame {
                 contJugador2++;
             }
         }
+         int contTrampasJugador1 = 0;
+        while (contTrampasJugador1 < trampas) {
+            int randomRow = posicionRandom(4, 5);
+            int randomCol = posicionRandom(0, 5);
+            if (matrizBotones[randomRow][randomCol] == null) {
+                matrizBotones[randomRow][randomCol] = new Pieza("TRAMPA", "J1", randomRow, randomCol);
+                contTrampasJugador1++;
+            }
+        }
+
+        int contTrampasJugador2 = 0;
+        while (contTrampasJugador2 < trampas) {
+            int randomRow = posicionRandom(0, 1);
+            int randomCol = posicionRandom(0, 5);
+            if (matrizBotones[randomRow][randomCol] == null) {
+                matrizBotones[randomRow][randomCol] = new Pieza("TRAMPA", "J2", randomRow, randomCol);
+                contTrampasJugador2++;
+            }
+        }
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
                 if (matrizBotones[i][j] == null) {
@@ -237,15 +260,23 @@ public class GhostGame {
         int bJ2 = contadorBuenosJugadorDosList.size();
         int mJ2 = contadorMalosJugadorDosList.size();
 
-        if ((bJ1==0 && turno==2) || (mJ2==0 && turno==1)) {//o si saca un fantasma bueno gana sino pierde de castillo
-            return 2; //jugador 2 gana
-        } else if ((bJ2==0 && turno==1) || (mJ1==0 && turno==2)) {
-            return 1; //jugador 1 gana
-        } else {
-            return 0; //no termina
-        }
+        if (bJ1 == 0 && turno == 2) {
+        JOptionPane.showMessageDialog(null, "¡Jugador 2 ha ganado porque Jugador 1 se quedó sin buenos!", "Fin de Partida", JOptionPane.INFORMATION_MESSAGE);
+        return 2; 
+    } else if (mJ2 == 0 && turno == 1) {
+        JOptionPane.showMessageDialog(null, "¡Jugador 2 ha ganado porque Jugador 1 se comió todos los malos!", "Fin de Partida", JOptionPane.INFORMATION_MESSAGE);
+        return 2; 
+    } else if (bJ2 == 0 && turno == 1) {
+        JOptionPane.showMessageDialog(null, "¡Jugador 1 ha ganado porque Jugador 2 se quedó sin buenos!", "Fin de Partida", JOptionPane.INFORMATION_MESSAGE);
+        return 1;
+    } else if (mJ1 == 0 && turno == 2) {
+        JOptionPane.showMessageDialog(null, "¡Jugador 1 ha ganado porque Jugador 2 se comió todos los malos!", "Fin de Partida", JOptionPane.INFORMATION_MESSAGE);
+        return 1; 
+    } else {
+        return 0; // No termina
     }
-    public boolean datosIngresados(Pieza piezaSeleccionada) {//valida si esa pieza es de su turno
+    }
+    public boolean datosIngresados(Pieza piezaSeleccionada) {//valida si esa pieza es de su turno LISTO
         if (piezaSeleccionada != null && !piezaSeleccionada.getFantasma().equals("CASTILLO")) {
             botonSeleccionado = piezaSeleccionada;
             if(botonSeleccionado.getJugador().equals("J1")&&turno==1 ){
@@ -278,31 +309,34 @@ public class GhostGame {
         if(piezaDestino !=null  && piezaDestino.getFantasma().equals("CASTILLO")&& !piezaDestino.getJugador().equals(botonSeleccionado.getJugador()) ){
             String tipoFantasma = ghostCastillo();
             JOptionPane.showMessageDialog(null, "Te has encontrado con un fantasma " + tipoFantasma, "Fantasma Generado", JOptionPane.INFORMATION_MESSAGE);
-            return false; 
-        }
+            if (tipoFantasma.equals("BUENOS") && turno == 1) {
+                JOptionPane.showMessageDialog(null, ""+turno+"triunfo sobre"+"\nSaco un fantasma bueno de castillo", "VITORIA", JOptionPane.INFORMATION_MESSAGE);
+            } else if (tipoFantasma.equals("BUENOS") && turno == 2) {
+                JOptionPane.showMessageDialog(null, ""+turno+"triunfo sobre"+"\nSaco un fantasma bueno de castillo", "VICTORIA", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+            }
+             cambiarTurno();
+                return false; 
+            }
         if (piezaDestino != null && piezaDestino.getJugador().equals(botonSeleccionado.getJugador()) ||(piezaDestino.getFantasma().equals("CASTILLO"))) {
             System.out.println("No puedes mover sobre una pieza propia");
             return false;
         }
  
-        if (piezaDestino !=null  && !piezaDestino.getJugador().equals("CASTILLO")) {
+        if (piezaDestino !=null  ) {
             if (!piezaDestino.getJugador().equals(botonSeleccionado.getJugador())) {
-                if (piezaDestino.getJugador().equals("J1")) {
+                if (piezaDestino.getJugador().equals("J1") ) {
                     if(piezaDestino.getFantasma().equals("BUENOS")){
                         contadorBuenosJugadorUnoList.remove(contadorBuenosJugadorUnoList.size()-1);
-                        System.out.println("pieza elimidada 1 buena");
                     }else if(piezaDestino.getFantasma().equals("MALOS")){
                         contadorMalosJugadorUnoList.remove(contadorMalosJugadorUnoList.size()-1);
-                        System.out.println("pieza elimidada 1 mala");
                     }
                     piezasJugadorUno.remove(piezaDestino.getFantasma());
                 } else if (piezaDestino.getJugador().equals("J2")) {
                     if(piezaDestino.getFantasma().equals("BUENOS")){
                         contadorBuenosJugadorDosList.remove(contadorBuenosJugadorDosList.size()-1);
-                       System.out.println("pieza elimidada 2 buena");
                     }else if (piezaDestino.getFantasma().equals("MALOS")){
                         contadorMalosJugadorDosList.remove(contadorMalosJugadorDosList.size()-1);
-                        System.out.println("pieza elimidada 2 mala");
                     }
                     piezasJugadorDos.remove(piezaDestino.getFantasma());
                 }
@@ -325,6 +359,9 @@ public class GhostGame {
             return false;
         }
     }
+    
+    
+    //pendiente todo esto
     
 public boolean esTurnoModoManual() {
     return (turno==1 && contadorBuenosJugadorUnoList.size() < cantPiezas) ||
