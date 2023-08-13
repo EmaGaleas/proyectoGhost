@@ -4,6 +4,9 @@
  */
 package proyecto1_progra2.clases_o;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  *
  * @author pcast
@@ -11,10 +14,12 @@ package proyecto1_progra2.clases_o;
 public class info {
     private String username;
     private String password;
-
-    public info(String username, String password) {//int puntos iniciales
+    private Date creacion;
+    
+    public info(String username, String password,Date creacion) {//int puntos iniciales
         this.username = username;
         this.password = password;
+        this.creacion = creacion;
     }
     public String getUsername() {
         return username;
@@ -24,6 +29,9 @@ public class info {
     }
     public void setPassword(String newPassword) {
         password = newPassword;
+    }
+    public Date getFechaCreada() {
+        return creacion;
     }
     
 }

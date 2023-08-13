@@ -20,7 +20,7 @@ public class GhostGame {
     //atributos para inicializar tablero
     public Pieza[][] matrizBotones; //de JButton a Pieza por valores
     private String modo="ALEATORIO";//por default INICIALIZAR O SI NO ERROR
-    int dificultad=1;//por default
+    int dificultad=4;//por default
     int cantPiezas;//dependiente de dificultad 
     int trampas;
     

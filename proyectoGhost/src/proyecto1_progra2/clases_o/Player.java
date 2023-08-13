@@ -4,6 +4,9 @@
  */
 package proyecto1_progra2.clases_o;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class Player {
     private static Player instancia = new Player();//var static, singleton acceso global para no crear insatnica cada vex
     private info[] registro;//¿se podra arraylist?
@@ -42,7 +45,8 @@ public class Player {
         if (buscarUsername(name)==-1) {//npo existe en array
             int indice=disponible();
             if (indice!=-1 && password.length()>=5) {//disponibilidad
-                registro[indice]=new info(name, password);
+                Date fechaCreacion = obtenerHoraUbi();
+                registro[indice] = new info(name, password, fechaCreacion);
                 return true;
             } else {
                 return false;//no se agrega por arreglo lleno o tamaño contra
@@ -85,6 +89,27 @@ public class Player {
             return false;
         }
     }
+     public String obtenerContraseña(String name) {
+        int index = buscarUsername(name);
+        if (index != -1) {
+            info user = registro[index];
+            return user.getPassword();
+        } else {
+            return null;
+        }
+    }
+     public static Date obtenerHoraUbi() {
+        Calendar cal=Calendar.getInstance();
+        return cal.getTime();
+     }
+    public Date obtenerFechaCreacion(String name) {
+        int index = buscarUsername(name);
+        if (index != -1) {
+            info user = registro[index];
+            return user.getFechaCreada();
+        } else {
+            return null;
+        }
+    }
 
 }
-
