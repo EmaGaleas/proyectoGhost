@@ -4,6 +4,7 @@
  */
 package proyecto1_progra2.clases_o;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ public class Player {
     private info[] registro;//¿se podra arraylist?
 
     private Player() {
-        registro=new info[10];
+        registro=new info[20];
     }
 
     public static Player getInstancia() {
@@ -110,6 +111,17 @@ public class Player {
         } else {
             return null;
         }
+    }
+    public boolean oponente(String username) {
+        for (info user : registro) {
+            if (user != null && !user.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false; 
+    }
+    public info[] getArregloPersonas() {
+        return Arrays.copyOf(registro, 19);
     }
 
 }

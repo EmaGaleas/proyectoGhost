@@ -4,6 +4,9 @@
  */
 package proyecto1_progra2;
 
+import javax.swing.JOptionPane;
+import proyecto1_progra2.clases_o.Player;
+
 
 public class menu_principal extends javax.swing.JFrame {
   private String username;
@@ -36,6 +39,11 @@ public class menu_principal extends javax.swing.JFrame {
         btn_juego.setFont(new java.awt.Font("Doctor Soos Light", 0, 32)); // NOI18N
         btn_juego.setForeground(new java.awt.Color(255, 255, 255));
         btn_juego.setText("JUGAR GHOSTS");
+        btn_juego.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_juegoMouseClicked(evt);
+            }
+        });
 
         btn_confi.setBackground(new java.awt.Color(18, 29, 35));
         btn_confi.setFont(new java.awt.Font("Doctor Soos Light", 0, 32)); // NOI18N
@@ -171,6 +179,16 @@ public class menu_principal extends javax.swing.JFrame {
         cerrar.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_cerrarMouseClicked
+
+    private void btn_juegoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_juegoMouseClicked
+        if (Player.getInstancia().oponente(username)) {
+            oponente op = new oponente(username);
+            op.setVisible(true);
+            this.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay oponentes registrados");
+        }
+    }//GEN-LAST:event_btn_juegoMouseClicked
 
     /**
      * @param args the command line arguments

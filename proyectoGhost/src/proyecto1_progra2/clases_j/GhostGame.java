@@ -16,7 +16,8 @@ public class GhostGame {
     private Pieza piezaDestino;
     private Pieza botonSeleccionado;//obtener datos
     private int turno=1;
-    
+    public String j1="";
+    public String oponente;
     //atributos para inicializar tablero
     public Pieza[][] matrizBotones; //de JButton a Pieza por valores
     private String modo="ALEATORIO";//por default INICIALIZAR O SI NO ERROR
@@ -34,6 +35,10 @@ public class GhostGame {
     private ArrayList<Integer> contadorMalosJugadorDosList = new ArrayList<>();
     
     public JButton[][] matrizButtonsUI;//ACCEDE A LOS BOTONES
+    
+    public void setOponente(String oponente) {
+        this.oponente = oponente;
+    }
 
     public GhostGame() {
         matrizButtonsUI = new JButton[6][6]; 

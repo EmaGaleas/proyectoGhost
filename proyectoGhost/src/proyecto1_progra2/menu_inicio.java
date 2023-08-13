@@ -8,7 +8,6 @@ package proyecto1_progra2;
 public class menu_inicio extends javax.swing.JFrame {
   private String username;
 
-
     public menu_inicio() {
         this.username=username;
         initComponents();
