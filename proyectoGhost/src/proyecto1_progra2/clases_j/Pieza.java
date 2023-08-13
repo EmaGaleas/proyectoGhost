@@ -48,13 +48,11 @@ public class Pieza extends JButton {
     }
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
-        System.out.println("se modifico imagePath con path" + imagePath);
         
         if (imagePath == null) {
             setIcon(null);
             return;
         }
-        
         Image img = null;
         try {
             img = ImageIO.read(new File(imagePath));

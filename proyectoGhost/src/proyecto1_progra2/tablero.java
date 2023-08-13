@@ -20,7 +20,6 @@ private GhostGame ghostGame;
         filaDestino.setEnabled(false);
         columnaDestino.setEnabled(false);
         setDestino.setEnabled(false);
-        
         turno.setText("Turno de: " + ghostGame.getTurnoActual());
         
         // Actualizar los JLabels con los valores obtenidos
@@ -588,7 +587,7 @@ private GhostGame ghostGame;
         GhostGame info = new GhostGame();
         info.instrucciones();
     }//GEN-LAST:event_infoMouseClicked
-
+//GET MOVER UBUCARA LAS PIEZAS, LA LOGICA DE JUEGO SERA LA MISMA
     private void getMoverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_getMoverMouseClicked
         String fSeleccion = filaSeleccion.getText().trim();
         String cSeleccion = columnaSeleccion.getText().trim();
@@ -599,23 +598,31 @@ private GhostGame ghostGame;
             try {
                 int filaSele = Integer.parseInt(fSeleccion);
                 int cSele = Integer.parseInt(cSeleccion);
-                if(ghostGame.getModo().equals("ALEATORIO")){
-                    if ((filaSele<0 || filaSele>=6) || (cSele<0 || cSele>=6)) {
+                if ((filaSele<0 || filaSele>=6) || (cSele<0 || cSele>=6)) {
                         JOptionPane.showMessageDialog(null, "Ingrese cordenadas dentro del rango 0-5", "ERROR EN SELECCION", JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        Pieza piezaSeleccionada = ghostGame.matrizBotones[filaSele][cSele];
-                        if (ghostGame.datosIngresados(piezaSeleccionada)) {
-                            ghostGame.cambiarFondoNegro(filaSele, cSele);
-                            filaDestino.setEnabled(true);
-                            columnaDestino.setEnabled(true);
-                            setDestino.setEnabled(true);                        } else {
-                            JOptionPane.showMessageDialog(null, "Escoja una pieza valida para mover\nRecuerda es turno de "+ghostGame.getTurnoActual(), "SELECCION", JOptionPane.WARNING_MESSAGE);
+                } 
+                if(ghostGame.getModo().equals("ALEATORIO")){
+                    Pieza piezaSeleccionada = ghostGame.matrizBotones[filaSele][cSele];
+                    if (ghostGame.datosIngresados(piezaSeleccionada)) {
+                        ghostGame.cambiarFondoNegro(filaSele, cSele);
+                        filaDestino.setEnabled(true);
+                        columnaDestino.setEnabled(true);
+                        setDestino.setEnabled(true);                        } 
+                    else {
+                        JOptionPane.showMessageDialog(null, "Escoja una pieza valida para mover\nRecuerda es turno de "+ghostGame.getTurnoActual(), "SELECCION", JOptionPane.WARNING_MESSAGE);
+                    }   
+                }else if(ghostGame.getModo().equals("MANUAL")){//modo manual
+                    if(ghostGame.posicionarManualJ1()){
+                        JOptionPane.showMessageDialog(null, "Turno de "+ghostGame.getTurnoActual()+" ordene sus piezas", "SELECCION", JOptionPane.WARNING_MESSAGE);
+                        if(filaSele==4 || filaSele==5){
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Ingrese piezas en fila 4 y 5", "SELECCION", JOptionPane.WARNING_MESSAGE);  
                         }
+                    }else if(ghostGame.posicionarManualJ2()){
+                        
                     }
-                }else{//modo manual
-                    //que ponga todas la spiezas en el tablero y que hasta despues de todo ponga en blanco todas las casillas y empieza juego
-                  //       JOptionPane.showMessageDialog(null, "Jugador " + ghostGame.getTurnoActual() + ": Coloca tus piezas en el tablero.", "Modo Manual", JOptionPane.INFORMATION_MESSAGE);
 
+                    
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "INGRESE NUMEROS", "Error en SELECCION", JOptionPane.ERROR_MESSAGE);
@@ -721,10 +728,7 @@ private GhostGame ghostGame;
         }
         
     }//GEN-LAST:event_setDestinoMouseClicked
-//System.out.println("filaSel: " + filaSel);
-//System.out.println("columnaSel: " + columnaSel);
-//System.out.println("filaDest: " + filaDest);
-//System.out.println("columnaDest: " + columnaDest);
+
     /**
      * @param args the command line arguments
      */

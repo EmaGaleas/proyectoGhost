@@ -16,11 +16,12 @@ public class GhostGame {
     private Pieza piezaDestino;
     private Pieza botonSeleccionado;//obtener datos
     private int turno=1;
+    private String turnoPoner="BUENAS";
     public String j1="";
     public String oponente;
     //atributos para inicializar tablero
     public Pieza[][] matrizBotones; //de JButton a Pieza por valores
-    private String modo="ALEATORIO";//por default INICIALIZAR O SI NO ERROR
+    private String modo="MANUAL";//por default INICIALIZAR O SI NO ERROR
     int dificultad=1;//por default
     int cantPiezas;//dependiente de dificultad 
     int trampas;
@@ -53,7 +54,7 @@ public class GhostGame {
         GridLayout gridLayout = new GridLayout(filas, col);
         tablero.setLayout(gridLayout);
         matrizBotones = new Pieza[filas][col];
-        posicionarPiezasAleatorio();
+        modo();
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < col; j++) {
                 final Pieza pieza = matrizBotones[i][j]; 
@@ -367,51 +368,74 @@ public class GhostGame {
     }
     
     
-    //pendiente todo esto
+    /*
+    JUGADOR 1 INGRESE BUENO, MALO, BUENO , MALO...INTERCALADO...CUANDO SE LLENE SEGUN CANTIDAD DE PIEZAS POR JUGADOR 
+    ES TURNO DE PONER PIEZAS DE JUGADOR 2, CUANDO TERMINE JOPTION QUE DIGA EMPEIZA EL JUEGO Y TURNO ES DE 1...
+    SE DESBLOQUEA GET
+    */
     
 public boolean esTurnoModoManual() {
-    return (turno==1 && contadorBuenosJugadorUnoList.size() < cantPiezas) ||
-           (turno==2 && contadorBuenosJugadorDosList.size() < cantPiezas);
+    if(contadorBuenosJugadorUnoList.size()== cantPiezas && contadorMalosJugadorUnoList.size()==cantPiezas){
+        return turno==2;
+    }
+    return turno==1;  
 }
 
-  
-private void posicionarManual() {
-    matrizBotones[0][0] = new Pieza("CASTILLO", "J2", 0, 0);
-    matrizBotones[0][5] = new Pieza("CASTILLO", "J2",  0, 5);
-    matrizBotones[5][0] = new Pieza("CASTILLO", "J1", 5, 0);
-    matrizBotones[5][5] = new Pieza("CASTILLO", "J1",5, 5);
-    // J1 
-    for (int i = 0; i < cantPiezas; i++) {
-        String tipoFantasma = JOptionPane.showInputDialog(null, "Jugador 1: Ingrese CORDENADAS");
-        if (tipoFantasma != null) {
-            if (tipoFantasma.equals("BUENOS") || tipoFantasma.equals("MALOS")) {
-                contadorBuenosJugadorUnoList.add(i); // Agregar al contador según corresponda
-                piezasJugadorUno.add(tipoFantasma);
-            } else {
-                JOptionPane.showMessageDialog(null, "", "Error", JOptionPane.ERROR_MESSAGE);
-                i--; 
+    public void posicionarManual() {
+        matrizBotones[0][0] = new Pieza("CASTILLO", "J2", 0, 0);
+        matrizBotones[0][5] = new Pieza("CASTILLO", "J2", 0, 5);
+        matrizBotones[5][0] = new Pieza("CASTILLO", "J1", 5, 0);
+        matrizBotones[5][5] = new Pieza("CASTILLO", "J1", 5, 5);
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 6; j++) {
+                if (matrizBotones[i][j] == null) {
+                    Pieza piezaVacia = new Pieza("A", "A", i, j);
+                    matrizBotones[i][j] = piezaVacia;
+                }
             }
-        } else {
-            i--; 
+        }
+    }
+    public void cambiarTurnoPiezas() {//LISTO
+      turnoPoner=(turnoPoner.equals("BUENOS"))?"MALOS":"BUENOS";
+    }
+    public String  getTurnoActualPiezas() {//LISTO
+        return turnoPoner;
+    }
+    public boolean posicionarManualJ1() {
+        if (contadorBuenosJugadorUnoList.size()==(cantPiezas/2) && contadorMalosJugadorUnoList.size()==(cantPiezas/2)) {
+            return true;
+        }
+        return false;
+    }
+    public boolean posicionarManualJ2(){
+        if(contadorBuenosJugadorDosList.size()==(cantPiezas/2) && contadorMalosJugadorDosList.size()==(cantPiezas/2)){
+            return true;
+        }
+        return false;
+    }
+    
+
+}/*
+    if (turno == 1) {
+        int contJugador1 = 0;
+        int cantidadBuenos = 0;
+        
+        while (cantidadBuenos < piezasJugadorUno.size() / 2) {
+            // Aquí se debe solicitar al usuario que ingrese las coordenadas
+            // Supongamos que el usuario ingresa las coordenadas en las variables filaIngresada y columnaIngresada
+            if (matrizBotones[fila][columna] == null) {
+                String tipoFantasma = piezasJugadorUno.get(contJugador1);
+                if (tipoFantasma.equals("BUENOS")) {
+                    contadorBuenosJugadorUnoList.add(contJugador1);
+                    cantidadBuenos++;
+                } else if (tipoFantasma.equals("MALOS")) {
+                    contadorMalosJugadorUnoList.add(contJugador1);
+                }
+                matrizBotones[fila][columna] = new Pieza(tipoFantasma, "J1", fila, columna);
+                contJugador1++;
+            }
         }
     }
 
-    //J2
-    for (int i = 0; i < cantPiezas; i++) {
-        String tipoFantasma = JOptionPane.showInputDialog(null, "Jugador 2: Ingrese CORDENADAS");
-        if (tipoFantasma != null) {
-            if (tipoFantasma.equals("BUENOS") || tipoFantasma.equals("MALOS")) {
-                contadorBuenosJugadorDosList.add(i); // Agregar al contador según corresponda
-                piezasJugadorDos.add(tipoFantasma);
-            } else {
-                JOptionPane.showMessageDialog(null, "", "Error", JOptionPane.ERROR_MESSAGE);
-                i--; // Decrementar para repetir el ingreso
-            }
-        } else {
-            i--; // Decrementar para repetir el ingreso si se cancela
-        }
-    }
-
-}
-
-}
+    esTurnoModoManual();
+*/
