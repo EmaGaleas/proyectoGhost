@@ -612,9 +612,11 @@ private GhostGame ghostGame;
                         JOptionPane.showMessageDialog(null, "Escoja una pieza valida para mover\nRecuerda es turno de "+ghostGame.getTurnoActual(), "SELECCION", JOptionPane.WARNING_MESSAGE);
                     }   
                 }else if(ghostGame.getModo().equals("MANUAL")){//modo manual
+                   Pieza piezaSeleccionada = ghostGame.matrizBotones[filaSele][cSele];
                     if(ghostGame.posicionarManualJ1()){
                         JOptionPane.showMessageDialog(null, "Turno de "+ghostGame.getTurnoActual()+" ordene sus piezas", "SELECCION", JOptionPane.WARNING_MESSAGE);
-                        if(filaSele==4 || filaSele==5){
+                        if((filaSele==4 || filaSele==5)&& piezaSeleccionada.getFantasma().equals("A")){
+                            ghostGame.crearPiezaJ1(filaSele, cSele);System.out.println("siiiiii");
                         }else{
                             JOptionPane.showMessageDialog(null, "Ingrese piezas en fila 4 y 5", "SELECCION", JOptionPane.WARNING_MESSAGE);  
                         }

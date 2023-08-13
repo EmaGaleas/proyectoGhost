@@ -24,7 +24,7 @@ public class GhostGame {
     private String modo="MANUAL";//por default INICIALIZAR O SI NO ERROR
     int dificultad=1;//por default
     int cantPiezas;//dependiente de dificultad 
-    int trampas;
+    int trampas=0;
     
     //atributos sobre piezas de jugador
     private ArrayList<String> piezasJugadorUno;
@@ -112,9 +112,11 @@ public class GhostGame {
     public void modo(){//LISTO
         switch(modo.toUpperCase()){
             case "ALEATORIO":
+                difi();
                 posicionarPiezasAleatorio();
                 break;
             case "MANUAL":
+                difi();
                 posicionarManual();
                 break;
             default:
@@ -142,6 +144,8 @@ public class GhostGame {
                 break;
             default:
                 cantPiezas=8;
+                trampas=0;
+                break;
         }
        return cantPiezas;
     }
@@ -198,7 +202,7 @@ public class GhostGame {
                 contJugador2++;
             }
         }
-         int contTrampasJugador1 = 0;
+        int contTrampasJugador1 = 0;
         while (contTrampasJugador1 < trampas) {
             int randomRow = posicionRandom(4, 5);
             int randomCol = posicionRandom(0, 5);
@@ -228,13 +232,15 @@ public class GhostGame {
     }
     private void mostrarInformacionPieza(Pieza pieza) {//LISTO
         if (pieza!=null) {
-            if(pieza.getJugador().equals("J1") && turno==1){
-                String info="Tipo "+pieza.getFantasma()+"\nJugador "+pieza.getJugador()+"\nF"+pieza.getFila()+"\nC"+pieza.getColumna();
+            String info="Tipo "+pieza.getFantasma()+"\nJugador "+pieza.getJugador()+"\nF"+pieza.getFila()+"\nC"+pieza.getColumna();
                 JOptionPane.showMessageDialog(null, info, "Info", JOptionPane.INFORMATION_MESSAGE);
-            }else if(pieza.getJugador().equals("J2") && turno==2){
-                String info="Tipo "+pieza.getFantasma()+"\nJugador "+pieza.getJugador()+"\nF"+pieza.getFila()+"\nC"+pieza.getColumna();
-                JOptionPane.showMessageDialog(null, info, "Info", JOptionPane.INFORMATION_MESSAGE);
-            }
+//            if(pieza.getJugador().equals("J1") && turno==1){
+//                String info="Tipo "+pieza.getFantasma()+"\nJugador "+pieza.getJugador()+"\nF"+pieza.getFila()+"\nC"+pieza.getColumna();
+//                JOptionPane.showMessageDialog(null, info, "Info", JOptionPane.INFORMATION_MESSAGE);
+//            }else if(pieza.getJugador().equals("J2") && turno==2){
+//                String info="Tipo "+pieza.getFantasma()+"\nJugador "+pieza.getJugador()+"\nF"+pieza.getFila()+"\nC"+pieza.getColumna();
+//                JOptionPane.showMessageDialog(null, info, "Info", JOptionPane.INFORMATION_MESSAGE);
+//            }
         }
     }
     public void instrucciones(){//? LISTO
@@ -386,6 +392,25 @@ public boolean esTurnoModoManual() {
         matrizBotones[0][5] = new Pieza("CASTILLO", "J2", 0, 5);
         matrizBotones[5][0] = new Pieza("CASTILLO", "J1", 5, 0);
         matrizBotones[5][5] = new Pieza("CASTILLO", "J1", 5, 5);
+        int contTrampasJugador1 = 0;
+        while (contTrampasJugador1 < trampas) {
+            int randomRow = posicionRandom(4, 5);
+            int randomCol = posicionRandom(0, 5);
+            if (matrizBotones[randomRow][randomCol] == null) {
+                matrizBotones[randomRow][randomCol] = new Pieza("TRAMPA", "J1", randomRow, randomCol);
+                contTrampasJugador1++;
+            }
+        }
+
+        int contTrampasJugador2 = 0;
+        while (contTrampasJugador2 < trampas) {
+            int randomRow = posicionRandom(0, 1);
+            int randomCol = posicionRandom(0, 5);
+            if (matrizBotones[randomRow][randomCol] == null) {
+                matrizBotones[randomRow][randomCol] = new Pieza("TRAMPA", "J2", randomRow, randomCol);
+                contTrampasJugador2++;
+            }
+        }
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
                 if (matrizBotones[i][j] == null) {
@@ -413,6 +438,15 @@ public boolean esTurnoModoManual() {
         }
         return false;
     }
+    public void crearPiezaJ1(int row, int col) {
+            String turnoActual = getTurnoActualPiezas();
+            Pieza newPiece = new Pieza(turnoActual, turnoActual, row, col); // Assuming "A" is an empty piece type
+            matrizBotones[row][col] = newPiece;
+           System.out.println("siiiiiiiiiuu");
+        }
+            
+        
+    
     
 
 }/*
