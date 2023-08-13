@@ -614,10 +614,11 @@ private GhostGame ghostGame;
                 }else if(ghostGame.getModo().equals("MANUAL")){//modo manual
                    Pieza piezaSeleccionada = ghostGame.matrizBotones[filaSele][cSele];
                     System.out.println("aqui");
-                    int buenosJ1 = ghostGame.getContadorBuenosJugadorUnoList().size();
-                    if(buenosJ1< (ghostGame.getCantPiezas())/2){
+                    int buenosJ1 = ghostGame.getCantPiezas();
+                    
+                    if(ghostGame.getContadorBuenosJugadorUnoList().size()< (ghostGame.getCantPiezas())/2){
                         JOptionPane.showMessageDialog(null, "Turno de "+ghostGame.getTurnoActual()+" ordene sus piezas", "SELECCION", JOptionPane.WARNING_MESSAGE);
-                                            System.out.println("va a verificar i columan ingresada");
+                         System.out.println("va a verificar i columan ingresada");
                         if((filaSele==4 || filaSele==5)&& piezaSeleccionada.getFantasma().equals("A")){
                             System.out.println("CAMBIO");
                             piezaSeleccionada.setFantasma("BUENOS");
@@ -625,7 +626,7 @@ private GhostGame ghostGame;
                             piezaSeleccionada.setFila(filaSele);
                             piezaSeleccionada.setColumna(cSele);
                             ghostGame.cambiarImagenJ1(filaSele, cSele);
-                           buenosJ1++;
+                           ghostGame.getContadorBuenosJugadorUnoList().add(1);
                         }else{
                             System.out.println("no va");
                             JOptionPane.showMessageDialog(null, "Ingrese piezas en fila 4 y 5", "SELECCION", JOptionPane.WARNING_MESSAGE);  
