@@ -599,7 +599,7 @@ private GhostGame ghostGame;
                 int filaSele = Integer.parseInt(fSeleccion);
                 int cSele = Integer.parseInt(cSeleccion);
                 if ((filaSele<0 || filaSele>=6) || (cSele<0 || cSele>=6)) {
-                        JOptionPane.showMessageDialog(null, "Ingrese cordenadas dentro del rango 0-5", "ERROR EN SELECCION", JOptionPane.WARNING_MESSAGE);
+                     JOptionPane.showMessageDialog(null, "Ingrese cordenadas dentro del rango 0-5", "ERROR EN SELECCION", JOptionPane.WARNING_MESSAGE);
                 } 
                 if(ghostGame.getModo().equals("ALEATORIO")){
                     Pieza piezaSeleccionada = ghostGame.matrizBotones[filaSele][cSele];
@@ -613,17 +613,27 @@ private GhostGame ghostGame;
                     }   
                 }else if(ghostGame.getModo().equals("MANUAL")){//modo manual
                    Pieza piezaSeleccionada = ghostGame.matrizBotones[filaSele][cSele];
-                    if(ghostGame.posicionarManualJ1()){
+                    System.out.println("aqui");
+                    int buenosJ1 = ghostGame.getContadorBuenosJugadorUnoList().size();
+                    if(buenosJ1< (ghostGame.getCantPiezas())/2){
                         JOptionPane.showMessageDialog(null, "Turno de "+ghostGame.getTurnoActual()+" ordene sus piezas", "SELECCION", JOptionPane.WARNING_MESSAGE);
+                                            System.out.println("va a verificar i columan ingresada");
                         if((filaSele==4 || filaSele==5)&& piezaSeleccionada.getFantasma().equals("A")){
-                            ghostGame.crearPiezaJ1(filaSele, cSele);System.out.println("siiiiii");
+                            System.out.println("CAMBIO");
+                            piezaSeleccionada.setFantasma("BUENOS");
+                            piezaSeleccionada.setJugador("J1");
+                            piezaSeleccionada.setFila(filaSele);
+                            piezaSeleccionada.setColumna(cSele);
+                            ghostGame.cambiarImagenJ1(filaSele, cSele);
+                           buenosJ1++;
                         }else{
+                            System.out.println("no va");
                             JOptionPane.showMessageDialog(null, "Ingrese piezas en fila 4 y 5", "SELECCION", JOptionPane.WARNING_MESSAGE);  
                         }
+                        
                     }else if(ghostGame.posicionarManualJ2()){
                         
                     }
-
                     
                 }
             } catch (Exception e) {

@@ -22,15 +22,15 @@ public class GhostGame {
     //atributos para inicializar tablero
     public Pieza[][] matrizBotones; //de JButton a Pieza por valores
     private String modo="MANUAL";//por default INICIALIZAR O SI NO ERROR
-    int dificultad=1;//por default
-    int cantPiezas;//dependiente de dificultad 
+    int dificultad=2;//por default
+    int cantPiezas=0;//dependiente de dificultad 
     int trampas=0;
     
     //atributos sobre piezas de jugador
     private ArrayList<String> piezasJugadorUno;
     private ArrayList<String> piezasJugadorDos;
     
-    private ArrayList<Integer> contadorBuenosJugadorUnoList = new ArrayList<>();
+    public ArrayList<Integer> contadorBuenosJugadorUnoList = new ArrayList<>();
     private ArrayList<Integer> contadorMalosJugadorUnoList = new ArrayList<>();
     private ArrayList<Integer> contadorBuenosJugadorDosList = new ArrayList<>();
     private ArrayList<Integer> contadorMalosJugadorDosList = new ArrayList<>();
@@ -121,6 +121,7 @@ public class GhostGame {
                 break;
             default:
                 modo="ALEATORIO";
+                difi();
                 posicionarPiezasAleatorio();
                 break;
         }
@@ -276,18 +277,18 @@ public class GhostGame {
         if (bJ1 == 0 && turno == 2) {
         JOptionPane.showMessageDialog(null, "¡Jugador 2 ha ganado porque Jugador 1 se quedó sin buenos!", "Fin de Partida", JOptionPane.INFORMATION_MESSAGE);
         return 2; 
-    } else if (mJ2 == 0 && turno == 1) {
-        JOptionPane.showMessageDialog(null, "¡Jugador 2 ha ganado porque Jugador 1 se comió todos los malos!", "Fin de Partida", JOptionPane.INFORMATION_MESSAGE);
-        return 2; 
-    } else if (bJ2 == 0 && turno == 1) {
-        JOptionPane.showMessageDialog(null, "¡Jugador 1 ha ganado porque Jugador 2 se quedó sin buenos!", "Fin de Partida", JOptionPane.INFORMATION_MESSAGE);
-        return 1;
-    } else if (mJ1 == 0 && turno == 2) {
-        JOptionPane.showMessageDialog(null, "¡Jugador 1 ha ganado porque Jugador 2 se comió todos los malos!", "Fin de Partida", JOptionPane.INFORMATION_MESSAGE);
-        return 1; 
-    } else {
-        return 0; // No termina
-    }
+        } else if (mJ2 == 0 && turno == 1) {
+            JOptionPane.showMessageDialog(null, "¡Jugador 2 ha ganado porque Jugador 1 se comió todos los malos!", "Fin de Partida", JOptionPane.INFORMATION_MESSAGE);
+            return 2; 
+        } else if (bJ2 == 0 && turno == 1) {
+            JOptionPane.showMessageDialog(null, "¡Jugador 1 ha ganado porque Jugador 2 se quedó sin buenos!", "Fin de Partida", JOptionPane.INFORMATION_MESSAGE);
+            return 1;
+        } else if (mJ1 == 0 && turno == 2) {
+            JOptionPane.showMessageDialog(null, "¡Jugador 1 ha ganado porque Jugador 2 se comió todos los malos!", "Fin de Partida", JOptionPane.INFORMATION_MESSAGE);
+            return 1; 
+        } else {
+            return 0; // No termina
+        }
     }
     public boolean datosIngresados(Pieza piezaSeleccionada) {//valida si esa pieza es de su turno LISTO
         if (piezaSeleccionada != null && !piezaSeleccionada.getFantasma().equals("CASTILLO")) {
@@ -379,13 +380,13 @@ public class GhostGame {
     ES TURNO DE PONER PIEZAS DE JUGADOR 2, CUANDO TERMINE JOPTION QUE DIGA EMPEIZA EL JUEGO Y TURNO ES DE 1...
     SE DESBLOQUEA GET
     */
-    
-public boolean esTurnoModoManual() {
-    if(contadorBuenosJugadorUnoList.size()== cantPiezas && contadorMalosJugadorUnoList.size()==cantPiezas){
-        return turno==2;
-    }
-    return turno==1;  
-}
+//    
+//public boolean esTurnoModoManual() {
+//    if(contadorBuenosJugadorUnoList.size()== cantPiezas && contadorMalosJugadorUnoList.size()==cantPiezas){
+//        return turno==2;
+//    }
+//    return turno==1;  
+//}
 
     public void posicionarManual() {
         matrizBotones[0][0] = new Pieza("CASTILLO", "J2", 0, 0);
@@ -401,7 +402,6 @@ public boolean esTurnoModoManual() {
                 contTrampasJugador1++;
             }
         }
-
         int contTrampasJugador2 = 0;
         while (contTrampasJugador2 < trampas) {
             int randomRow = posicionRandom(0, 1);
@@ -428,22 +428,32 @@ public boolean esTurnoModoManual() {
     }
     public boolean posicionarManualJ1() {
         if (contadorBuenosJugadorUnoList.size()==(cantPiezas/2) && contadorMalosJugadorUnoList.size()==(cantPiezas/2)) {
+            System.out.println(cantPiezas);
             return true;
         }
         return false;
     }
     public boolean posicionarManualJ2(){
+                    System.out.println(cantPiezas);
+
         if(contadorBuenosJugadorDosList.size()==(cantPiezas/2) && contadorMalosJugadorDosList.size()==(cantPiezas/2)){
             return true;
         }
         return false;
     }
-    public void crearPiezaJ1(int row, int col) {
-            String turnoActual = getTurnoActualPiezas();
-            Pieza newPiece = new Pieza(turnoActual, turnoActual, row, col); // Assuming "A" is an empty piece type
-            matrizBotones[row][col] = newPiece;
-           System.out.println("siiiiiiiiiuu");
-        }
+//    public void crearPiezaJ1(int row, int col) {
+//            String turnoActual = getTurnoActualPiezas();
+//            if (matrizBotones[row][col] == null) {
+//                Pieza newPiece = new Pieza(turnoActual, "J1", row, col); // Assuming "A" is an empty piece type
+//                matrizBotones[row][col] = newPiece;
+//               System.out.println("siiiiiiiiiuu");
+//               //cambiarTurnoPiezas();
+//            }
+//        }
+
+    public int getCantPiezas() {
+        return cantPiezas;
+    }
             
         
     
