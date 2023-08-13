@@ -138,18 +138,18 @@ public class oponente extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_menuMouseClicked
 
     private void continuarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_continuarMouseClicked
-         String oponenteSeleccionado = (String) comboOponente.getSelectedItem();
+        String oponenteSeleccionado = (String) comboOponente.getSelectedItem();
     
-    if (oponenteSeleccionado != null) {
-        GhostGame ghostGame = new GhostGame(); 
-        ghostGame.setOponente(oponenteSeleccionado); 
-        sel.setText(oponenteSeleccionado);
-//        tablero tb=new tablero(username);
-//        tb.setVisible(true);
-//        this.setVisible(false);
-    } else {
-        JOptionPane.showMessageDialog(null, "Debes seleccionar un oponente antes de continuar.");
-    }
+        if (oponenteSeleccionado != null) {
+            GhostGame ghostGame = new GhostGame(); 
+            ghostGame.setOponente(oponenteSeleccionado); 
+            sel.setText(oponenteSeleccionado);
+    //        tablero tb=new tablero(username);
+    //        tb.setVisible(true);
+    //        this.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Debes seleccionar un oponente antes de continuar.");
+        }
     }//GEN-LAST:event_continuarMouseClicked
 
 

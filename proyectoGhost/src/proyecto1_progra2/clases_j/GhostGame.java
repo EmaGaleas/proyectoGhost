@@ -21,7 +21,7 @@ public class GhostGame {
     //atributos para inicializar tablero
     public Pieza[][] matrizBotones; //de JButton a Pieza por valores
     private String modo="ALEATORIO";//por default INICIALIZAR O SI NO ERROR
-    int dificultad=4;//por default
+    int dificultad=1;//por default
     int cantPiezas;//dependiente de dificultad 
     int trampas;
     
@@ -75,7 +75,8 @@ public class GhostGame {
         }
     }
     public void cambiarFondoNegro(int fila, int columna) {//LISTO
-        if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6) {
+        if (fila >= 0 && fila < 6 && columna >= 0 && columna < 6 ) {
+            
             matrizButtonsUI[fila][columna].setBackground(Color.BLACK);
         }
     }
@@ -311,7 +312,7 @@ public class GhostGame {
     }
     public boolean esMovimientoValidoJugador(int nuevaFila, int nuevaColumna, int filaActual, int columnaActual) {//LISTO AQ PENDIENTE TRAMPA
        Pieza piezaDestino = matrizBotones[nuevaFila][nuevaColumna];
-        if(piezaDestino !=null  && piezaDestino.getFantasma().equals("CASTILLO")&& !piezaDestino.getJugador().equals(botonSeleccionado.getJugador()) ){
+        if(piezaDestino !=null  && piezaDestino.getFantasma().equals("CASTILLO")&& !piezaDestino.getJugador().equals(botonSeleccionado.getJugador()) && !botonSeleccionado.getFantasma().equals("TRAMPA")){
             String tipoFantasma = ghostCastillo();
             JOptionPane.showMessageDialog(null, "Te has encontrado con un fantasma " + tipoFantasma, "Fantasma Generado", JOptionPane.INFORMATION_MESSAGE);
             if (tipoFantasma.equals("BUENOS") && turno == 1) {
@@ -329,7 +330,7 @@ public class GhostGame {
         }
  
         if (piezaDestino !=null  ) {
-            if (!piezaDestino.getJugador().equals(botonSeleccionado.getJugador())) {
+            if (!piezaDestino.getJugador().equals(botonSeleccionado.getJugador()) && !botonSeleccionado.getFantasma().equals("TRAMPA")) {
                 if (piezaDestino.getJugador().equals("J1") ) {
                     if(piezaDestino.getFantasma().equals("BUENOS")){
                         contadorBuenosJugadorUnoList.remove(contadorBuenosJugadorUnoList.size()-1);

@@ -646,7 +646,7 @@ private GhostGame ghostGame;
                         if (piezaDestino == null) {
                             piezaDestino = new Pieza(piezaSeleccionada.getFantasma(), piezaSeleccionada.getJugador(), filaDest, columnaDest);
                         }else{//aqui va la logica de dodne sea que mueva
-                             if (!piezaDestino.getJugador().equals("A")) {
+                             if (!piezaDestino.getJugador().equals("A") &&!piezaSeleccionada.getFantasma().equals("TRAMPA")) {
                                 JOptionPane.showMessageDialog(null, "Te has comido a fantasma\t" + piezaDestino.getFantasma() + "\nDel jugador\t" + piezaDestino.getJugador(), "NOTIFICACION", JOptionPane.INFORMATION_MESSAGE);
                                 int resultadoPartida = ghostGame.estadoPartidaActual();
                                 if (resultadoPartida==1) {
@@ -664,17 +664,23 @@ private GhostGame ghostGame;
                                 }
                             }
                         }
+                         //poner imagen segun turno
+                        if (piezaSeleccionada.getFantasma().equals("TRAMPA") && (piezaDestino.getJugador().equals("J2")|| piezaDestino.getJugador().equals("J1"))) {
+                            //NADA
+                        } else if (piezaSeleccionada.getJugador().equals("J1") && ghostGame.getTurnoActual() == 1) {
+                            ghostGame.cambiarImagenJ1(filaDest, columnaDest);
+                        } else if (piezaSeleccionada.getJugador().equals("J2") && ghostGame.getTurnoActual() == 2) {
+                            ghostGame.cambiarImagenJ2(filaDest, columnaDest);
+                        }
                         //relacionado con destino
-                        piezaDestino.setFantasma(piezaSeleccionada.getFantasma());
-                        piezaDestino.setJugador(piezaSeleccionada.getJugador());
-                        piezaDestino.setFila(filaDest);
-                        piezaDestino.setColumna(columnaDest);
-                        ghostGame.matrizBotones[filaDest][columnaDest] = piezaDestino;
-                        //poner imagen segun turno
-                        if(piezaSeleccionada.getJugador().equals("J1") && ghostGame.getTurnoActual()==1){
-                            ghostGame.cambiarImagenJ1(filaDest,columnaDest);
-                        }else if(piezaSeleccionada.getJugador().equals("J2") && ghostGame.getTurnoActual()==2){
-                            ghostGame.cambiarImagenJ2(filaDest,columnaDest);
+                        if (piezaSeleccionada.getFantasma().equals("TRAMPA") && (piezaDestino.getJugador().equals("J2")|| piezaDestino.getJugador().equals("J1"))) {
+                            //NADA
+                        }else{ 
+                            piezaDestino.setFantasma(piezaSeleccionada.getFantasma());
+                            piezaDestino.setJugador(piezaSeleccionada.getJugador());
+                            piezaDestino.setFila(filaDest);
+                            piezaDestino.setColumna(columnaDest);
+                            ghostGame.matrizBotones[filaDest][columnaDest] = piezaDestino;
                         }
                         ghostGame.cambiarFondoBlanco(filaDest, columnaDest);
                         //relacionado con querer mover
