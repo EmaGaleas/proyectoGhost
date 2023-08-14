@@ -607,8 +607,8 @@ private GhostGame ghostGame;
                         ghostGame.cambiarFondoNegro(filaSele, cSele);
                         filaDestino.setEnabled(true);
                         columnaDestino.setEnabled(true);
-                        setDestino.setEnabled(true);                        } 
-                    else {
+                        setDestino.setEnabled(true);                        
+                    }else {
                         JOptionPane.showMessageDialog(null, "Escoja una pieza valida para mover\nRecuerda es turno de "+ghostGame.getTurnoActual(), "SELECCION", JOptionPane.WARNING_MESSAGE);
                     }   
                 }else if(ghostGame.getModo().equals("MANUAL")){//modo manual
@@ -620,21 +620,60 @@ private GhostGame ghostGame;
                         JOptionPane.showMessageDialog(null, "Turno de "+ghostGame.getTurnoActual()+" ordene sus piezas", "SELECCION", JOptionPane.WARNING_MESSAGE);
                          System.out.println("va a verificar i columan ingresada");
                         if((filaSele==4 || filaSele==5)&& piezaSeleccionada.getFantasma().equals("A")){
+                        JOptionPane.showMessageDialog(null, "Ya puso", "SELECCION", JOptionPane.WARNING_MESSAGE);
                             System.out.println("CAMBIO");
                             piezaSeleccionada.setFantasma("BUENOS");
                             piezaSeleccionada.setJugador("J1");
                             piezaSeleccionada.setFila(filaSele);
                             piezaSeleccionada.setColumna(cSele);
                             ghostGame.cambiarImagenJ1(filaSele, cSele);
-                           ghostGame.getContadorBuenosJugadorUnoList().add(1);
-                        }else{
-                            System.out.println("no va");
-                            JOptionPane.showMessageDialog(null, "Ingrese piezas en fila 4 y 5", "SELECCION", JOptionPane.WARNING_MESSAGE);  
+                            ghostGame.getContadorBuenosJugadorUnoList().add(1);
+                        } 
+                    }else if(ghostGame.getContadorMalosJugadorUnoList().size()< (ghostGame.getCantPiezas())/2){
+                        JOptionPane.showMessageDialog(null, "Turno de "+ghostGame.getTurnoActual()+" ordene sus piezas", "SELECCION", JOptionPane.WARNING_MESSAGE);
+                         System.out.println("va a verificar i columan ingresada");
+                        if((filaSele==4 || filaSele==5)&& piezaSeleccionada.getFantasma().equals("A")){
+                            System.out.println("CAMBIO malos j1");
+                            piezaSeleccionada.setFantasma("MALOS");
+                            piezaSeleccionada.setJugador("J1");
+                            piezaSeleccionada.setFila(filaSele);
+                            piezaSeleccionada.setColumna(cSele);
+                            ghostGame.cambiarImagenJ1(filaSele, cSele);
+                            ghostGame.getContadorMalosJugadorUnoList().add(1);
                         }
-                        
-                    }else if(ghostGame.posicionarManualJ2()){
-                        
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No puedes poner aqui", "SELECCION", JOptionPane.WARNING_MESSAGE);
+                        System.out.println("no peude");
+                    }                    
+                    if(ghostGame.getContadorBuenosJugadorDosList().size()< (ghostGame.getCantPiezas())/2){
+                        JOptionPane.showMessageDialog(null, "Turno de "+ghostGame.getTurnoActual()+" ordene sus piezas", "SELECCION", JOptionPane.WARNING_MESSAGE);
+                         System.out.println("va a verificar i columan ingresada");
+                        if((filaSele==0 || filaSele==1)&& piezaSeleccionada.getFantasma().equals("A")){
+                            System.out.println("CAMBIO");
+                            piezaSeleccionada.setFantasma("BUENOS");
+                            piezaSeleccionada.setJugador("J2");
+                            piezaSeleccionada.setFila(filaSele);
+                            piezaSeleccionada.setColumna(cSele);
+                            ghostGame.cambiarImagenJ1(filaSele, cSele);
+                            ghostGame.getContadorBuenosJugadorDosList().add(1);
+                        } 
+                    }else if(ghostGame.getContadorMalosJugadorDosList().size()< (ghostGame.getCantPiezas())/2){
+                        if((filaSele==0 || filaSele==1)&& piezaSeleccionada.getFantasma().equals("A")){
+                            System.out.println("CAMBIO malos j1");
+                            piezaSeleccionada.setFantasma("MALOS");
+                            piezaSeleccionada.setJugador("J2");
+                            piezaSeleccionada.setFila(filaSele);
+                            piezaSeleccionada.setColumna(cSele);
+                            ghostGame.cambiarImagenJ1(filaSele, cSele);
+                            ghostGame.getContadorMalosJugadorDosList().add(1);
+                        }
+                    }else{    
                     }
+                    //logica que cambie de turno al llenar j1 y lofica de inetrcalado
+                   //logia si los arreglos estan llenos enabled true
+                    filaDestino.setEnabled(true);
+                        columnaDestino.setEnabled(true);
+                        setDestino.setEnabled(true); 
                     
                 }
             } catch (Exception e) {
